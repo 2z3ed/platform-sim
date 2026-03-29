@@ -391,7 +391,10 @@ P2 已完成以下平台：
 - providers/taobao/provider.py (mock/real 切换) ✅
 - providers/douyin_shop/provider.py (签名校验) ✅
 - providers/wecom_kf/provider.py (会话/消息) ✅
-- providers/tests/ (9 passed) ✅
+- providers/jd/provider.py (P1 订单/物流/退款) ✅
+- providers/xhs/provider.py (P1 订单/物流/退款/报关) ✅
+- providers/kuaishou/provider.py (P2 订单/物流/退款) ✅
+- providers/tests/ (23 passed: 9 base + 14 P1/P2) ✅
 
 ## 5. AI Orchestrator 层 (P3)
 
