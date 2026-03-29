@@ -393,6 +393,15 @@ P2 已完成以下平台：
 - providers/wecom_kf/provider.py (会话/消息) ✅
 - providers/tests/ (9 passed) ✅
 
+## 5. AI Orchestrator 层 (P3)
+
+### 5.1 已完成
+- apps/ai-orchestrator/nodes/state.py (OrchestratorState, AgentStatus) ✅
+- apps/ai-orchestrator/nodes/base.py (start_node, error_node, end_node) ✅
+- apps/ai-orchestrator/nodes/suggestion.py (get_suggestion_node, rule_check_node) ✅
+- apps/ai-orchestrator/graphs/orchestrator.py (LangGraph StateGraph) ✅
+- apps/ai-orchestrator/tests/ (9 passed) ✅
+
 以下平台只允许建立占位 profile / skeleton，不做完整实现：
 
 - 无

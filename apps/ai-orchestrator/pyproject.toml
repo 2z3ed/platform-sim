@@ -1,0 +1,18 @@
+[project]
+name = "ai-orchestrator"
+version = "0.1.0"
+description = "AI orchestration layer with LangGraph for official-sim"
+requires-python = ">=3.10"
+dependencies = [
+    "langgraph>=0.0.20",
+    "langchain-core>=0.1.0",
+    "langchain-community>=0.0.20",
+    "pydantic>=2.9.2",
+    "python-dotenv>=1.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.3",
+    "pytest-asyncio>=0.24.0",
+]
