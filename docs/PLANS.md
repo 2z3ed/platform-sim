@@ -412,6 +412,15 @@ P2 已完成以下平台：
 - apps/domain-service/adapters/platform_adapter.py (TaobaoAdapter, DouyinShopAdapter, WecomKfAdapter) ✅
 - apps/domain-service/tests/ (9 passed) ✅
 
+## 7. 集成测试
+
+### 7.1 已完成
+- tests/integration/test_provider_domain_integration.py (9 passed) ✅
+  - provider → unified 转换测试
+  - 全平台 order/shipment/refund 流程测试
+  - mock/real 模式切换测试
+  - unified roundtrip 测试
+
 以下平台只允许建立占位 profile / skeleton，不做完整实现：
 
 - 无
