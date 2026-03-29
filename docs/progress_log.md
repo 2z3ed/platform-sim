@@ -170,26 +170,36 @@
 
 ## M6: Douyin Shop P0 Profile
 
-- **状态**: todo
-- **开始时间**:
-- **完成时间**:
+- **状态**: ✅ DONE
+- **开始时间**: 2026-03-29
+- **完成时间**: 2026-03-29
 - **目标**: 实现抖店 P0 平台 profile
 
 - **实际完成**:
+  - 实现 `app/platforms/douyin_shop/profile.py` - 抖店订单状态机和场景定义
+  - 支持场景: basic_paid_to_shipped, basic_shipped_to_confirmed, basic_confirmed_to_completed, full_flow, refund_flow
+  - 支持退款流程: apply_refund -> approve_refund
+  - 更新 `app/domain/scenario_engine.py` 支持多平台
+  - 创建 9 个抖店测试用例
+  - 40 个 pytest 测试全部通过
 
-- **未完成项**:
+- **未完成项**: 无
 
-- **阻塞**:
+- **阻塞**: 无
 
-- **下一步**:
+- **下一步**: M7 - 实现 wecom_kf P0 profile
 
 - **验证命令**:
+  ```bash
+  cd apps/official-sim-server
+  python -m pytest tests/test_douyin_shop.py -v
+  ```
 
-- **结果**:
+- **结果**: ✅ 40 passed
 
 ---
 
-## M7: WeCom KF P0 Profile
+## M7: Wecom KF P0 Profile
 
 - **状态**: todo
 - **开始时间**:

@@ -214,7 +214,7 @@ P0 范围：
 
 ---
 
-### M6: 实现 douyin_shop P0 profile
+### M6: 实现 douyin_shop P0 profile ✅ DONE
 
 #### 目标
 实现抖店 P0 平台 profile。
