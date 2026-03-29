@@ -178,7 +178,7 @@ P0 范围：
 
 ---
 
-### M5: 实现 taobao P0 profile
+### M5: 实现 taobao P0 profile ✅ DONE
 
 #### 目标
 实现淘宝 P0 平台 profile。

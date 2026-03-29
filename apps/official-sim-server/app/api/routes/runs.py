@@ -15,6 +15,7 @@ from app.repositories.artifact_repo import ArtifactRepository
 from app.repositories.push_event_repo import PushEventRepository
 from app.models.models import RunStatus
 from app.core.errors import ErrorCode, get_error_response
+from app.domain.scenario_engine import ScenarioEngine
 
 router = APIRouter()
 
@@ -101,13 +102,16 @@ async def create_run(
     repo = RunRepository(db)
     run_code = f"run_{uuid.uuid4().hex[:8]}"
 
+    metadata = dict(request.metadata or {})
+    metadata["scenario_name"] = request.scenario_name
+
     run = repo.create(
         platform=request.platform,
         run_code=run_code,
         strict_mode=request.strict_mode,
         push_enabled=request.push_enabled,
         seed=request.seed,
-        metadata=request.metadata,
+        metadata=metadata,
     )
 
     return RunCreateResponse(
@@ -186,15 +190,32 @@ async def advance_run(
         payload={"previous_step": previous_step, "new_step": new_step},
     )
 
+    scenario_engine = ScenarioEngine(db)
+    scenario_result = scenario_engine.execute_step(
+        run_id=run.id,
+        platform=run.platform,
+        scenario_name=run.metadata_json.get("scenario_name", "wait_ship_basic"),
+        current_step=new_step - 1,
+    )
+
+    snapshot_state = {
+        "auth_state": {"platform": run.platform, "step": new_step},
+        "order_state": {"status": scenario_result.get("next_status", "initial")},
+        "shipment_state": {"status": "initial"},
+        "after_sale_state": {"status": "no_refund"},
+        "conversation_state": {"status": "initial"},
+        "push_state": {"pushed": []},
+    }
+
+    if scenario_result.get("pushes_created", 0) > 0:
+        push_repo = PushEventRepository(db)
+        pushes = push_repo.list_by_run_and_step(run.id, new_step)
+        snapshot_state["push_state"]["pushed"] = [str(p.id) for p in pushes]
+
     snapshot_repo.create(
         run_id=run.id,
         step_no=new_step,
-        auth_state={"platform": run.platform, "step": new_step},
-        order_state={"status": "initial"},
-        shipment_state={"status": "initial"},
-        after_sale_state={"status": "initial"},
-        conversation_state={"status": "initial"},
-        push_state={"pushed": []},
+        **snapshot_state,
     )
 
     artifact_repo = ArtifactRepository(db)

@@ -137,20 +137,32 @@
 
 ## M5: Taobao P0 Profile
 
-- **状态**: todo
-- **开始时间**:
-- **完成时间**:
+- **状态**: ✅ DONE
+- **开始时间**: 2026-03-29
+- **完成时间**: 2026-03-29
 - **目标**: 实现淘宝 P0 平台 profile
 
 - **实际完成**:
+  - 实现 `app/platforms/taobao/profile.py` - 淘宝订单状态机和场景定义
+  - 实现 `app/domain/scenario_engine.py` - 场景执行引擎
+  - 支持场景: wait_ship_basic, wait_ship_to_shipped, shipped_to_finished, full_flow
+  - advance 时根据场景自动创建订单/物流 artifact 和 push event
+  - 创建 8 个淘宝测试用例（状态转移、push、错误注入）
+  - 31 个 pytest 测试全部通过
 
-- **未完成项**:
+- **未完成项**: 无
 
-- **阻塞**:
+- **阻塞**: 无
 
-- **下一步**:
+- **下一步**: M6 - 实现 douyin_shop P0 profile
 
 - **验证命令**:
+  ```bash
+  cd apps/official-sim-server
+  python -m pytest tests/test_taobao.py -v
+  ```
+
+- **结果**: ✅ 31 passed
 
 - **结果**:
 
