@@ -232,46 +232,49 @@
 
 ## M8: Integration
 
-- **状态**: todo
-- **开始时间**:
-- **完成时间**:
+- **状态**: ✅ DONE
+- **开始时间**: 2026-03-29
+- **完成时间**: 2026-03-29
 - **目标**: 打通与 unified/provider 的最小集成
 
 - **实际完成**:
+  - 实现 `app/integration/adapter.py` - 工件映射器
+  - 实现 `app/api/routes/integration.py` - 统一接入路由
+  - 创建 `POST /official-sim/unified/run` 接口
+  - 创建 `GET /official-sim/unified/runs/{run_id}` 接口
+  - 支持 artifact -> unified 订单/会话/推送事件映射
+  - 创建 6 个集成测试用例
+  - 55 个 pytest 测试全部通过
 
-- **未完成项**:
+- **未完成项**: 无
 
-- **阻塞**:
+- **阻塞**: 无
 
-- **下一步**:
+- **下一步**: P0 全部完成！
 
 - **验证命令**:
+  ```bash
+  cd apps/official-sim-server
+  python -m pytest tests/test_integration.py -v
+  ```
 
-- **结果**:
+- **结果**: ✅ 55 passed
 
 ---
 
-## M9: 错误注入与报告
+## P0 里程碑完成总结
 
-- **状态**: todo
-- **开始时间**:
-- **完成时间**:
-- **目标**: 完善错误注入和报告生成
+All P0 milestones completed:
+- ✅ M1: 工程骨架
+- ✅ M2: 数据库与迁移基础
+- ✅ M3: Run 生命周期
+- ✅ M4: Artifacts / Snapshots / Push Events
+- ✅ M5: Taobao P0 Profile
+- ✅ M6: Douyin Shop P0 Profile
+- ✅ M7: Wecom KF P0 Profile
+- ✅ M8: Integration
 
-- **实际完成**:
-
-- **未完成项**:
-
-- **阻塞**:
-
-- **下一步**:
-
-- **验证命令**:
-
-- **结果**:
-
----
-
+**总测试数**: 55 passed
 ## M10: README 与验收
 
 - **状态**: todo

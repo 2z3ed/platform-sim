@@ -284,7 +284,7 @@ P0 范围：
 
 ---
 
-### M8: unified/provider 最小接入
+### M8: unified/provider 最小接入 ✅ DONE
 
 #### 目标
 让 official-sim 能通过最小 adapter 喂给现有 unified / provider。
