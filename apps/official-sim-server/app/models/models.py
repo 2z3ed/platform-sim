@@ -1,11 +1,14 @@
 import uuid
-from datetime import datetime
-from sqlalchemy import Column, String, Integer, DateTime, Text, Index, Numeric, ForeignKey, JSON, Enum as SQLEnum
+from datetime import datetime, timezone
+from sqlalchemy import Column, String, Integer, DateTime, Text, Index, ForeignKey, JSON, Enum as SQLEnum
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
 import enum
 
 from app.core.database import Base
+
+
+def utcnow():
+    return datetime.now(timezone.utc)
 
 
 class RunStatus(str, enum.Enum):
@@ -32,8 +35,8 @@ class SimulationRun(Base):
     metadata_json = Column(JSON, default=dict)
     started_at = Column(DateTime, nullable=True)
     ended_at = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
+    updated_at = Column(DateTime(timezone=True), default=utcnow, onupdate=utcnow, nullable=False)
 
     __table_args__ = (
         Index("ix_simulation_runs_platform_status", "platform", "status"),
@@ -50,7 +53,7 @@ class SimulationEvent(Base):
     event_type = Column(String(64), nullable=False)
     source_type = Column(String(32), nullable=True)
     payload_json = Column(JSON, default=dict)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
 
     __table_args__ = (
         Index("ix_simulation_events_run_step", "run_id", "step_no"),
@@ -70,7 +73,7 @@ class StateSnapshot(Base):
     after_sale_state_json = Column(JSON, default=dict)
     conversation_state_json = Column(JSON, default=dict)
     push_state_json = Column(JSON, default=dict)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
 
     __table_args__ = (
         Index("ix_state_snapshots_run_step", "run_id", "step_no", unique=True),
@@ -100,7 +103,7 @@ class PushEvent(Base):
     sent_at = Column(DateTime, nullable=True)
     acked_at = Column(DateTime, nullable=True)
     retry_count = Column(Integer, default=0)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
 
     __table_args__ = (
         Index("ix_push_events_run_step", "run_id", "step_no"),
@@ -130,7 +133,7 @@ class Artifact(Base):
     request_body_json = Column(JSON, default=dict)
     response_headers_json = Column(JSON, default=dict)
     response_body_json = Column(JSON, default=dict)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
 
     __table_args__ = (
         Index("ix_artifacts_run_step", "run_id", "step_no"),
@@ -149,7 +152,7 @@ class EvaluationReport(Base):
     expected_json = Column(JSON, default=dict)
     actual_json = Column(JSON, default=dict)
     issues_json = Column(JSON, default=list)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime(timezone=True), default=utcnow, nullable=False)
 
     __table_args__ = (
         Index("ix_evaluation_reports_run_version", "run_id", "report_version", unique=True),

@@ -70,22 +70,34 @@
 
 ## M3: Run 生命周期
 
-- **状态**: todo
-- **开始时间**:
-- **完成时间**:
+- **状态**: ✅ DONE
+- **开始时间**: 2026-03-29
+- **完成时间**: 2026-03-29
 - **目标**: 实现 run 的创建、查询、推进
 
 - **实际完成**:
+  - 实现 GET /official-sim/runs/{run_id} 查询端点
+  - 实现 POST /official-sim/runs/{run_id}/advance 推进端点
+  - advance 时自动创建 event 和 snapshot
+  - 实现 GET /official-sim/runs/{run_id}/events 事件列表
+  - 实现 GET /official-sim/runs/{run_id}/snapshots 快照列表
+  - 创建完整 pytest 测试（11 个测试用例）
+  - 修复 step 推进逻辑 bug（advance_step + 1 重复）
+  - 切换为 PostgreSQL 数据库（使用 finance-invoice-ocr-postgres-1）
 
-- **未完成项**:
+- **未完成项**: 无
 
-- **阻塞**:
+- **阻塞**: 无
 
-- **下一步**:
+- **下一步**: M4 - Artifacts / Snapshots / Push Events
 
 - **验证命令**:
+  ```bash
+  cd apps/official-sim-server
+  python -m pytest tests/ -v
+  ```
 
-- **结果**:
+- **结果**: ✅ 11 passed
 
 ---
 
