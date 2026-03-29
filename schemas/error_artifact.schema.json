@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ErrorArtifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifact_id", "run_id", "step_no", "platform", "artifact_type", "error_code", "error_type", "retryable", "payload", "created_at"],
+  "properties": {
+    "artifact_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "step_no": { "type": "integer", "minimum": 0 },
+    "platform": { "type": "string", "enum": ["jd", "taobao", "douyin_shop", "wecom_kf", "xhs", "kuaishou"] },
+    "artifact_type": { "type": "string", "const": "error_response_payload" },
+    "error_code": { "type": "string" },
+    "error_type": { "type": "string" },
+    "retryable": { "type": "boolean" },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["message"],
+      "properties": {
+        "message": { "type": "string" },
+        "request": { "type": "object", "additionalProperties": true },
+        "expected_behavior": { "type": "object", "additionalProperties": true },
+        "actual_behavior": { "type": "object", "additionalProperties": true },
+        "trace": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

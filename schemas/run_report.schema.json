@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RunReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["run_id", "platform", "scenario_name", "status", "current_step", "summary", "artifacts_count", "push_events_count", "injected_errors", "observed_errors", "open_issues", "created_at"],
+  "properties": {
+    "run_id": { "type": "string" },
+    "platform": { "type": "string", "enum": ["jd", "taobao", "douyin_shop", "wecom_kf", "xhs", "kuaishou"] },
+    "scenario_name": { "type": "string" },
+    "status": { "type": "string" },
+    "current_step": { "type": "integer", "minimum": 0 },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["final_state_summary"],
+      "properties": {
+        "final_state_summary": { "type": "object", "additionalProperties": true },
+        "expected_vs_actual": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "artifacts_count": { "type": "integer", "minimum": 0 },
+    "push_events_count": { "type": "integer", "minimum": 0 },
+    "injected_errors": { "type": "array", "items": { "type": "string" } },
+    "observed_errors": { "type": "array", "items": { "type": "string" } },
+    "open_issues": { "type": "array", "items": { "type": "string" } },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

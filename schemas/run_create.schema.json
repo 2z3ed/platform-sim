@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RunCreateRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["platform", "scenario_name"],
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": ["jd", "taobao", "douyin_shop", "wecom_kf", "xhs", "kuaishou"]
+    },
+    "scenario_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strict_mode": {
+      "type": "boolean",
+      "default": true
+    },
+    "push_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "account_code": {
+      "type": "string"
+    },
+    "seed": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "default": {}
+    }
+  }
+}

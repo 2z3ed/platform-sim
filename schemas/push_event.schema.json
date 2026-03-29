@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PushEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "run_id", "step_no", "platform", "event_type", "status", "headers", "body", "created_at"],
+  "properties": {
+    "event_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "step_no": { "type": "integer", "minimum": 0 },
+    "platform": { "type": "string", "enum": ["jd", "taobao", "douyin_shop", "wecom_kf", "xhs", "kuaishou"] },
+    "event_type": { "type": "string" },
+    "status": { "type": "string", "enum": ["created", "sent", "acked", "failed", "replayed"] },
+    "headers": { "type": "object", "additionalProperties": { "type": "string" } },
+    "body": { "type": "object", "additionalProperties": true },
+    "sent_at": { "type": "string", "format": "date-time" },
+    "acked_at": { "type": "string", "format": "date-time" },
+    "retry_count": { "type": "integer", "minimum": 0, "default": 0 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}
