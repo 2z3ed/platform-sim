@@ -1,0 +1,19 @@
+{
+  "platform": "wecom_kf",
+  "fixture_type": "error",
+  "scenario_key": "msg_code_expired",
+  "description": "消息码过期错误",
+  "error_code": "msg_code_expired",
+  "http_status": 400,
+  "retryable": true,
+  "response_body": {
+    "error": "msg_code_expired",
+    "message": "Message code has expired",
+    "http_status": 400,
+    "retryable": true
+  },
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

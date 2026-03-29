@@ -1,0 +1,19 @@
+{
+  "platform": "douyin_shop",
+  "fixture_type": "error",
+  "scenario_key": "invalid_signature",
+  "description": "签名验证失败错误",
+  "error_code": "invalid_signature",
+  "http_status": 403,
+  "retryable": false,
+  "response_body": {
+    "error": "invalid_signature",
+    "message": "Request signature verification failed",
+    "http_status": 403,
+    "retryable": false
+  },
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

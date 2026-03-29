@@ -1,0 +1,19 @@
+{
+  "platform": "douyin_shop",
+  "fixture_type": "error",
+  "scenario_key": "timestamp_out_of_window",
+  "description": "时间戳超出窗口错误",
+  "error_code": "timestamp_out_of_window",
+  "http_status": 400,
+  "retryable": false,
+  "response_body": {
+    "error": "timestamp_out_of_window",
+    "message": "Request timestamp is out of valid window",
+    "http_status": 400,
+    "retryable": false
+  },
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

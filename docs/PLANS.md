@@ -154,6 +154,7 @@ P0 范围：
 - push dispatcher
 - `GET /official-sim/runs/{run_id}/artifacts`
 - `POST /official-sim/runs/{run_id}/replay-push`
+- fixtures/ 目录和 JSON 文件
 
 #### 工件类型
 至少包含：
@@ -162,6 +163,16 @@ P0 范围：
 - webhook_payload
 - message_sync_payload
 - error_response_payload
+
+#### Fixtures 规范 ✅ DONE (P0 审计补充)
+- `fixtures/taobao/success/` - 6 个 JSON 文件
+- `fixtures/taobao/edge_case/` - 2 个 JSON 文件
+- `fixtures/taobao/error_case/` - 4 个 JSON 文件
+- `fixtures/douyin_shop/success/` - 7 个 JSON 文件
+- `fixtures/douyin_shop/error_case/` - 2 个 JSON 文件
+- `fixtures/wecom_kf/success/` - 3 个 JSON 文件
+- `fixtures/wecom_kf/error_case/` - 2 个 JSON 文件
+- fixture consistency pytest 测试 (114 passed)
 
 #### 验收标准
 - 每次 advance 后至少可产出一种 artifact

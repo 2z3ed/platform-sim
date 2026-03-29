@@ -1,0 +1,25 @@
+{
+  "platform": "wecom_kf",
+  "fixture_type": "conversation",
+  "scenario_key": "conversation_in_session",
+  "description": "会话进行中状态",
+  "initial_state": {
+    "conversation_status": "in_session"
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "conversation_snapshot",
+      "step": 0,
+      "description": "进行中会话快照"
+    },
+    {
+      "artifact_type": "callback_event",
+      "step": 0,
+      "description": "进入会话回调事件"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

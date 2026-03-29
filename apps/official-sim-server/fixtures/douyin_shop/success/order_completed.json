@@ -1,0 +1,20 @@
+{
+  "platform": "douyin_shop",
+  "fixture_type": "order",
+  "scenario_key": "order_completed",
+  "description": "订单已完成状态",
+  "initial_state": {
+    "order_status": "completed"
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "order_detail",
+      "step": 0,
+      "description": "已完成订单详情"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

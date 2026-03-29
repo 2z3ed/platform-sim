@@ -1,0 +1,25 @@
+{
+  "platform": "douyin_shop",
+  "fixture_type": "order",
+  "scenario_key": "order_shipped",
+  "description": "订单已发货状态",
+  "initial_state": {
+    "order_status": "shipped"
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "order_detail",
+      "step": 0,
+      "description": "已发货订单详情"
+    },
+    {
+      "artifact_type": "push_order_status_changed",
+      "step": 0,
+      "description": "订单状态变更推送"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "platform": "taobao",
+  "fixture_type": "order",
+  "scenario_key": "trade_partial_consign",
+  "description": "部分发货场景",
+  "initial_state": {
+    "order_status": "shipped",
+    "refund_status": "refunding",
+    "partial_ship": true
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "order_detail",
+      "step": 0,
+      "description": "部分发货订单详情"
+    },
+    {
+      "artifact_type": "shipment_snapshot",
+      "step": 0,
+      "description": "部分物流快照"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29",
+    "edge_case": true
+  }
+}

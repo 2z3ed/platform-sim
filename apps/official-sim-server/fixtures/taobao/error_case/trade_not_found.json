@@ -1,0 +1,19 @@
+{
+  "platform": "taobao",
+  "fixture_type": "error",
+  "scenario_key": "trade_not_found",
+  "description": "订单不存在错误",
+  "error_code": "resource_not_found",
+  "http_status": 404,
+  "retryable": false,
+  "response_body": {
+    "error": "resource_not_found",
+    "message": "Order not found",
+    "http_status": 404,
+    "retryable": false
+  },
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

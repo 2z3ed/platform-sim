@@ -1,0 +1,20 @@
+{
+  "platform": "wecom_kf",
+  "fixture_type": "conversation",
+  "scenario_key": "conversation_closed",
+  "description": "会话已关闭状态",
+  "initial_state": {
+    "conversation_status": "closed"
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "conversation_snapshot",
+      "step": 0,
+      "description": "已关闭会话快照"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

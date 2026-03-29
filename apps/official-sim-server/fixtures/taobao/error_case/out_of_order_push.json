@@ -1,0 +1,19 @@
+{
+  "platform": "taobao",
+  "fixture_type": "error",
+  "scenario_key": "out_of_order_push",
+  "description": "乱序推送错误",
+  "error_code": "out_of_order_push",
+  "http_status": 400,
+  "retryable": true,
+  "response_body": {
+    "error": "out_of_order_push",
+    "message": "Push sequence is out of order",
+    "http_status": 400,
+    "retryable": true
+  },
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}

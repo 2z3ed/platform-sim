@@ -1,0 +1,21 @@
+{
+  "platform": "douyin_shop",
+  "fixture_type": "refund",
+  "scenario_key": "refund_approved",
+  "description": "退款已批准状态",
+  "initial_state": {
+    "order_status": "refunding",
+    "refund_status": "approved"
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "refund_snapshot",
+      "step": 0,
+      "description": "退款批准快照"
+    }
+  ],
+  "metadata": {
+    "version": "1.0",
+    "created_at": "2026-03-29"
+  }
+}
