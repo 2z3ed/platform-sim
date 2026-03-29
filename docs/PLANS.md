@@ -402,6 +402,13 @@ P2 已完成以下平台：
 - apps/ai-orchestrator/graphs/orchestrator.py (LangGraph StateGraph) ✅
 - apps/ai-orchestrator/tests/ (9 passed) ✅
 
+## 6. Domain Service 层 (P3)
+
+### 6.1 已完成
+- apps/domain-service/models/unified.py (UnifiedOrder, UnifiedAddress, UnifiedProduct, etc.) ✅
+- apps/domain-service/adapters/platform_adapter.py (TaobaoAdapter, DouyinShopAdapter, WecomKfAdapter) ✅
+- apps/domain-service/tests/ (9 passed) ✅
+
 以下平台只允许建立占位 profile / skeleton，不做完整实现：
 
 - 无
