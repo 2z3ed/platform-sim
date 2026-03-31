@@ -422,6 +422,272 @@ print(result.decision.intent)  # IntentType.ASK_SHIPMENT
 
 ---
 
+## AI Agent 架构
+
+项目包含完整的 AI Agent 系统，用于模拟用户行为和生成客服建议。
+
+### 1. Orchestrator Graph（编排图）
+
+基于 LangGraph 构建的工作流编排：
+
+```
+┌─────────┐    ┌────────────┐    ┌────────────┐    ┌─────┐
+│  start  │───→│ suggestion │───→│ rule_check │───→│ end │
+└─────────┘    └────────────┘    └────────────┘    └─────┘
+                                     │
+                                     ▼
+                               ┌─────────┐
+                               │  error  │
+                               └─────────┘
+```
+
+**使用方式**：
+```python
+from apps.ai_orchestrator.graphs.orchestrator import OrchestratorGraph
+
+orchestrator = OrchestratorGraph()
+
+result = orchestrator.run(
+    order_id="TB123456",
+    platform="taobao",
+    unified_order={
+        "status": "wait_ship",
+        "user_message": "我的订单怎么还没发货？"
+    }
+)
+
+print(result.suggestions)  # ["您的订单已付款，商家正在准备发货中"]
+print(result.selected_action)  # "shipment_inquiry"
+```
+
+### 2. User Simulator Graph（用户模拟器图）
+
+完整的用户行为模拟流程：
+
+```
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ select_user  │───→│ select_order │───→│ decide_intent│
+└──────────────┘    └──────────────┘    └──────────────┘
+                                               │
+                                               ▼
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ emit_message │←───│validate_msg  │←───│ render_msg   │
+└──────────────┘    └──────────────┘    └──────────────┘
+       │
+       ▼
+   ┌───────┐
+   │  END  │
+   └───────┘
+```
+
+**节点说明**：
+
+| 节点 | 功能 |
+|-----|------|
+| `select_user` | 选择用户（随机或指定） |
+| `select_order` | 选择订单（随机或指定） |
+| `decide_intent` | 基于订单状态决定用户意图 |
+| `call_tools` | 调用工具获取订单/物流/退款信息 |
+| `render_message` | 生成用户消息 |
+| `validate_message` | 验证消息合法性 |
+| `emit_message` | 输出最终消息 |
+
+**使用方式**：
+```python
+from apps.ai_orchestrator.nodes.user_simulator_graph import UserSimulatorGraph
+
+simulator = UserSimulatorGraph(model_name="qwen-plus")
+
+result = simulator.run(
+    platform="taobao",
+    user_id="taobao_user_001",  # 可选
+    conversation_id="conv_123"   # 可选
+)
+
+print(result["user_message"])     # "我的订单TB123456怎么还没发货？"
+print(result["intent"])           # "ask_shipment"
+print(result["emotion"])          # "impatient"
+print(result["validation_result"])  # {"passed": true, "errors": [], "warnings": []}
+```
+
+### 3. LLM Service（大模型服务）
+
+支持多种大模型接入：
+
+```python
+from apps.ai_orchestrator.services.llm_service import LLMService
+
+llm = LLMService(model_name="qwen-plus")
+
+# 基础对话
+response = llm.chat([
+    {"role": "user", "content": "你好"}
+])
+
+# 带系统提示的对话
+response = llm.chat(
+    messages=[{"role": "user", "content": "帮我查订单"}],
+    system_prompt="你是客服助手"
+)
+
+# 带工具调用
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_order",
+            "description": "查询订单信息",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "order_id": {"type": "string"}
+                }
+            }
+        }
+    }
+]
+content, tool_calls = llm.chat_with_tools(
+    messages=[{"role": "user", "content": "查一下订单TB123456"}],
+    tools=tools
+)
+```
+
+### 4. Evaluator（评估器）
+
+验证用户消息的合法性：
+
+```python
+from apps.ai_orchestrator.nodes.evaluator import Evaluator
+
+evaluator = Evaluator()
+
+result = evaluator.validate(
+    message="我的订单TB123456怎么还没发货？",
+    decision={
+        "intent": "ask_shipment",
+        "emotion": "impatient",
+        "selected_order_id": "TB123456"
+    },
+    tool_results=[{"tool": "get_order_summary", "result": {...}}],
+    platform="taobao"
+)
+
+print(result.passed)       # True
+print(result.error_count)  # 0
+print(result.warnings)     # []
+```
+
+**验证规则**：
+
+| 规则 | 说明 | 严重级别 |
+|-----|------|---------|
+| 订单存在性检查 | 引用的订单必须存在 | error |
+| 退款一致性检查 | 退款意图需要订单有退款记录 | error |
+| 内部字段检查 | 消息不能包含系统内部字段 | error |
+| 消息长度检查 | 消息不超过200字符 | warning |
+| 意图情绪一致性 | 意图和情绪应匹配 | warning |
+
+### 5. Suggestion Node（建议节点）
+
+基于订单状态生成客服建议：
+
+```python
+from apps.ai_orchestrator.nodes.suggestion import get_suggestion_node, rule_check_node
+from apps.ai_orchestrator.nodes.state import OrchestratorState
+
+state = OrchestratorState(
+    current_platform="taobao",
+    unified_order={
+        "status": "wait_ship",
+        "user_message": "什么时候发货？"
+    }
+)
+
+# 获取建议
+state = get_suggestion_node(state, use_llm=True)
+print(state.suggestions)  # ["您的订单已付款，商家正在准备发货中"]
+
+# 规则检查
+state = rule_check_node(state, use_llm=True)
+print(state.selected_action)  # "shipment_inquiry"
+```
+
+**预设建议规则**：
+
+```python
+ORDER_STATUS_SUGGESTIONS = {
+    "taobao": {
+        "wait_pay": ["请尽快完成付款哦～"],
+        "wait_ship": ["商家正在准备发货中"],
+        "shipped": ["包裹已发货，正在运送途中"],
+        "finished": ["感谢您的购买！"],
+    },
+    # ...
+}
+
+SUGGESTION_RULES = {
+    "退款": "refund_request",
+    "物流": "shipment_inquiry",
+    "取消订单": "order_cancellation",
+}
+```
+
+### 6. Agent 状态定义
+
+```python
+from apps.ai_orchestrator.nodes.state import AgentStatus, OrchestratorState
+
+class AgentStatus(str, Enum):
+    IDLE = "idle"
+    PROCESSING = "processing"
+    WAITING_FOR_REPLY = "waiting_for_reply"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+class OrchestratorState(BaseModel):
+    status: AgentStatus = AgentStatus.IDLE
+    current_order_id: Optional[str] = None
+    current_platform: Optional[str] = None
+    unified_order: Optional[Dict[str, Any]] = None
+    suggestions: List[str] = []
+    selected_action: Optional[str] = None
+    messages: List[Dict[str, Any]] = []
+    errors: List[str] = []
+```
+
+### 7. Conversation Studio（会话工作室）
+
+可视化会话测试界面：
+
+```bash
+# 启动会话工作室服务
+cd apps/ai-orchestrator
+python run_server.py
+
+# 访问 http://localhost:8001
+```
+
+**API 接口**：
+```bash
+# 创建会话
+POST /conversation-studio/runs
+{
+  "platform": "taobao",
+  "user_id": "taobao_user_001"
+}
+
+# 发送用户消息
+POST /conversation-studio/runs/{run_id}/turns
+{
+  "user_message": "我的订单怎么还没发货？"
+}
+
+# 获取建议
+GET /conversation-studio/runs/{run_id}/suggestions
+```
+
+---
+
 ## 场景（Scenario）
 
 每个平台都预定义了常用场景：
