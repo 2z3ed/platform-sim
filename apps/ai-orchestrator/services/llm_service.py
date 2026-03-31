@@ -1,7 +1,8 @@
-from typing import Dict, Any, List, Optional, Callable
+from typing import Dict, Any, List, Optional, Callable, Tuple
 import os
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+from langchain_core.tools import tool
 from .llm_config import LLMConfig
 
 
@@ -24,14 +25,14 @@ class LLMService:
             openai_api_key=api_key,
             openai_api_base=self.config.get_api_base(),
             temperature=0.7,
-            max_tokens=2000,
+            max_tokens=500,
         )
 
     def chat(
         self,
         messages: List[Dict[str, str]],
         system_prompt: Optional[str] = None,
-        tools: Optional[List[Callable]] = None,
+        tools: Optional[List[Dict]] = None,
     ) -> str:
         langchain_messages = []
 
@@ -50,6 +51,41 @@ class LLMService:
             response = self.llm.invoke(langchain_messages)
 
         return response.content if hasattr(response, "content") else str(response)
+
+    def chat_with_tools(
+        self,
+        messages: List[Dict[str, str]],
+        system_prompt: Optional[str] = None,
+        tools: Optional[List[Dict]] = None,
+    ) -> Tuple[str, List[Dict[str, Any]]]:
+        """带工具调用的聊天，返回 (content, tool_calls)"""
+        langchain_messages = []
+
+        if system_prompt:
+            langchain_messages.append(SystemMessage(content=system_prompt))
+
+        for msg in messages:
+            role = msg.get("role", "user")
+            content = msg.get("content", "")
+            langchain_messages.append(HumanMessage(content=content))
+
+        if tools:
+            llm_with_tools = self.llm.bind_tools(tools)
+            response = llm_with_tools.invoke(langchain_messages)
+        else:
+            response = self.llm.invoke(langchain_messages)
+
+        content = response.content if hasattr(response, "content") else str(response)
+        
+        tool_calls = []
+        if hasattr(response, "tool_calls") and response.tool_calls:
+            for tc in response.tool_calls:
+                tool_calls.append({
+                    "name": tc.get("name", ""),
+                    "arguments": tc.get("args", {}),
+                })
+
+        return content, tool_calls
 
     def generate_suggestions(
         self,

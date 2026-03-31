@@ -1,0 +1,57 @@
+{
+  "platform": "taobao",
+  "fixture_type": "refund",
+  "scenario_key": "refund_wait_buyer_return",
+  "description": "卖家已同意退款，等待买家退货状态 - 官方 taobao.trade.refund.get 完整结构",
+  "official_api": "taobao.trade.refund.get",
+  "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=56",
+  "initial_state": {
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "refund_status": "WAIT_BUYER_RETURN_GOODS"
+  },
+  "response": {
+    "refund": {
+      "refund_id": 12345678901245,
+      "tid": 12345678901245,
+      "oid": 123456789012451,
+      "status": "WAIT_BUYER_RETURN_GOODS",
+      "refund_fee": "199.00",
+      "total_fee": "199.00",
+      "payment": "199.00",
+      "reason": "商品与描述不符",
+      "description": "收到的商品和图片不一样",
+      "buyer_nick": "tb_user_12345",
+      "seller_nick": "tb_shop_12345",
+      "created": "2026-03-28 10:00:00",
+      "modified": "2026-03-29 14:00:00",
+      "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+      "sku_id": "",
+      "num_iid": 1234567896,
+      "title": "官方仿真商品G",
+      "price": "99.50",
+      "num": 2,
+      "goods_status": "buyer_received",
+      "has_good_return": true,
+      "logistics_company": "",
+      "invoice_no": "",
+      "shipping_type": "express",
+      "address": "浙江省杭州市余杭区文一西路999号",
+      "address_name": "tb_shop_12345",
+      "address_mobile": "0571-12345678",
+      "return_logistics_company": "",
+      "return_invoice_no": ""
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "refund_detail",
+      "step": 0,
+      "description": "等待买家退货退款详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=56",
+    "created_at": "2026-03-30"
+  }
+}

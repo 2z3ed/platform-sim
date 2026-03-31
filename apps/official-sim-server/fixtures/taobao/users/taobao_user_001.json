@@ -1,0 +1,91 @@
+{
+  "user_id": "taobao_user_001",
+  "platform": "taobao",
+  "name": "张三",
+  "phone": "138****1234",
+  "created_at": "2026-01-10T08:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "TB_ORDER_001",
+      "status": "WAIT_SELLER_SEND_GOODS",
+      "status_text": "等待卖家发货",
+      "amount": "299.00",
+      "items": [
+        {
+          "name": "韩版宽松卫衣男",
+          "quantity": 1,
+          "price": "299.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "浙江省杭州市余杭区文一西路999号"
+      },
+      "shipment": null,
+      "refund": null,
+      "created_at": "2026-03-29T10:00:00+08:00",
+      "paid_at": "2026-03-29T10:05:00+08:00"
+    },
+    {
+      "order_id": "TB_ORDER_002",
+      "status": "WAIT_BUYER_CONFIRM_GOODS",
+      "status_text": "卖家已发货",
+      "amount": "159.00",
+      "items": [
+        {
+          "name": "运动休闲裤男",
+          "quantity": 2,
+          "price": "79.50",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "浙江省杭州市余杭区文一西路999号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "圆通速递",
+        "tracking_no": "YT1234567890",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T10:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T14:00:00+08:00",
+      "paid_at": "2026-03-27T14:05:00+08:00"
+    },
+    {
+      "order_id": "TB_ORDER_003",
+      "status": "TRADE_REFUNDING",
+      "status_text": "退款中",
+      "amount": "599.00",
+      "items": [
+        {
+          "name": "真皮皮带男士",
+          "quantity": 1,
+          "price": "599.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "浙江省杭州市余杭区文一西路999号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunding",
+        "amount": "599.00",
+        "reason": "尺码不合适",
+        "apply_time": "2026-03-29T12:00:00+08:00"
+      },
+      "created_at": "2026-03-26T09:00:00+08:00",
+      "paid_at": "2026-03-26T09:05:00+08:00"
+    }
+  ]
+}

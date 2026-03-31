@@ -1,0 +1,77 @@
+{
+  "platform": "kuaishou",
+  "fixture_type": "refund",
+  "scenario_key": "refund_rejected",
+  "description": "退款拒绝状态 - 官方快手 open.order.detail 完整结构",
+  "official_api": "open.order.detail",
+  "official_doc": "https://open.kwaixiaodian.com/docs/api?apiName=open.order.detail&version=1",
+  "initial_state": {
+    "order_status": "9"
+  },
+  "response": {
+    "order": {
+      "orderId": "KS12345678901236",
+      "orderNo": "KS_NO_20260327001",
+      "orderStatus": 5,
+      "statusDesc": "已完成",
+      "totalAmount": 39900,
+      "payAmount": 39900,
+      "freightAmount": 0,
+      "discountAmount": 0,
+      "buyerNick": "ks_user_12347",
+      "receiver": {
+        "name": "王五",
+        "phone": "137****9012",
+        "province": "广东省",
+        "city": "深圳市",
+        "district": "南山区",
+        "address": "科技园南区"
+      },
+      "productItems": [
+        {
+          "itemId": "12345678902",
+          "itemName": "快手仿真商品C",
+          "itemCount": 1,
+          "price": 39900,
+          "skuId": "SKU002",
+          "skuName": "默认规格"
+        }
+      ],
+      "logistics": {
+        "company": "京东快递",
+        "companyCode": "JD",
+        "trackingNo": "JD9876543210",
+        "status": "delivered"
+      },
+      "refundInfo": {
+        "refundId": "RF1234567890",
+        "refundStatus": 9,
+        "refundStatusDesc": "退款拒绝",
+        "refundAmount": 39900,
+        "refundReason": "不想要了",
+        "rejectReason": "商品已签收，非质量问题不支持退货",
+        "applyTime": 1743350400,
+        "rejectTime": 1743436800
+      },
+      "createTime": 1743091200,
+      "payTime": 1743091500,
+      "deliveryTime": 1743177600,
+      "confirmTime": 1743264000,
+      "finishTime": 1743350400,
+      "deliveryStatus": 30,
+      "refundStatus": 9
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "refund_detail",
+      "step": 0,
+      "description": "退款拒绝详情"
+    }
+  ],
+  "metadata": {
+    "version": "2.0",
+    "official_doc": "https://open.kwaixiaodian.com/docs/api?apiName=open.order.detail&version=1",
+    "created_at": "2026-03-30"
+  }
+}

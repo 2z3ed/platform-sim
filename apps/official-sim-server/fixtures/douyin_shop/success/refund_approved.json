@@ -2,20 +2,39 @@
   "platform": "douyin_shop",
   "fixture_type": "refund",
   "scenario_key": "refund_approved",
-  "description": "退款已批准状态",
+  "description": "退款已同意状态 - 官方抖店退款结构",
+  "official_api": "/refund/detail",
+  "official_doc": "https://op.jinritemai.com/docs/api-docs/172/1738",
   "initial_state": {
-    "order_status": "refunding",
-    "refund_status": "approved"
+    "refund_status": "20"
+  },
+  "response": {
+    "refund": {
+      "refund_id": "REF6912558345648290211",
+      "order_id": "6912558345648290211",
+      "refund_amount": 9900,
+      "refund_status": 20,
+      "refund_status_desc": "退款成功",
+      "refund_type": 1,
+      "refund_type_desc": "仅退款",
+      "reason_id": 1,
+      "reason_desc": "商品损坏",
+      "reason_detail": "商品在运输过程中损坏",
+      "buyer_nick": "douyin_user_12345",
+      "apply_time": 1743267600,
+      "update_time": 1743268800
+    }
   },
   "expected_artifacts": [
     {
-      "artifact_type": "refund_snapshot",
+      "artifact_type": "refund_detail",
       "step": 0,
-      "description": "退款批准快照"
+      "description": "退款成功详情"
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "3.0",
+    "official_doc": "https://op.jinritemai.com/docs/api-docs/172/1738",
     "created_at": "2026-03-29"
   }
 }

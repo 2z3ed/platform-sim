@@ -1,0 +1,91 @@
+{
+  "user_id": "douyin_user_003",
+  "platform": "douyin_shop",
+  "name": "周九",
+  "phone": "137****9012",
+  "created_at": "2026-02-08T14:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "DS_ORDER_007",
+      "status": "30",
+      "status_text": "已支付待发货",
+      "amount": "159.00",
+      "items": [
+        {
+          "name": "抖音推荐自拍杆",
+          "quantity": 1,
+          "price": "159.00",
+          "product_id": "3520562294461467759"
+        }
+      ],
+      "receiver": {
+        "name": "周九",
+        "phone": "137****9012",
+        "address": "湖北省武汉市洪山区珞喻路100号"
+      },
+      "shipment": null,
+      "refund": null,
+      "created_at": "2026-03-29T09:00:00+08:00",
+      "paid_at": "2026-03-29T09:05:00+08:00"
+    },
+    {
+      "order_id": "DS_ORDER_008",
+      "status": "100",
+      "status_text": "已发货",
+      "amount": "49.00",
+      "items": [
+        {
+          "name": "直播间抢到的零食",
+          "quantity": 1,
+          "price": "49.00",
+          "product_id": "3520562294461467760"
+        }
+      ],
+      "receiver": {
+        "name": "周九",
+        "phone": "137****9012",
+        "address": "湖北省武汉市洪山区珞喻路100号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "抖音电商物流",
+        "tracking_no": "DY1122334455",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T15:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T11:00:00+08:00",
+      "paid_at": "2026-03-27T11:10:00+08:00"
+    },
+    {
+      "order_id": "DS_ORDER_009",
+      "status": "400",
+      "status_text": "退款成功",
+      "amount": "299.00",
+      "items": [
+        {
+          "name": "网红吹风机",
+          "quantity": 1,
+          "price": "299.00",
+          "product_id": "3520562294461467761"
+        }
+      ],
+      "receiver": {
+        "name": "周九",
+        "phone": "137****9012",
+        "address": "湖北省武汉市洪山区珞喻路100号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunded",
+        "amount": "299.00",
+        "reason": "不喜欢",
+        "refund_time": "2026-03-28T14:00:00+08:00"
+      },
+      "created_at": "2026-03-25T08:00:00+08:00",
+      "paid_at": "2026-03-25T08:05:00+08:00"
+    }
+  ]
+}

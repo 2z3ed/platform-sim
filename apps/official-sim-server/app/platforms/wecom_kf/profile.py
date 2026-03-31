@@ -1,5 +1,10 @@
 from typing import Dict, Any, List, Optional
 from enum import Enum
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+from providers.utils.fixture_loader import FixtureLoader
 
 
 class WecomConversationStatus(str, Enum):
@@ -50,6 +55,14 @@ CONVERSATION_SCENARIOS = {
 }
 
 
+STATUS_TO_SCENARIO = {
+    WecomConversationStatus.PENDING: "conversation_pending",
+    WecomConversationStatus.IN_SESSION: "conversation_in_session",
+    WecomConversationStatus.CLOSED: "conversation_closed",
+    WecomConversationStatus.EXPIRED: "conversation_closed",
+}
+
+
 def get_default_callback_payload(open_id: str, code: str) -> Dict[str, Any]:
     return {
         "msg_type": "event",
@@ -64,29 +77,12 @@ def get_default_callback_payload(open_id: str, code: str) -> Dict[str, Any]:
 
 
 def get_default_sync_msg_payload(open_id: str, limit: int = 100) -> Dict[str, Any]:
+    fixture = FixtureLoader.get_response("wecom_kf", "conversation_in_session")
+    response = fixture.get("response", {})
     return {
         "errcode": 0,
         "errmsg": "ok",
-        "msg_list": [
-            {
-                "msgid": "MSG_ID_001",
-                "openid": open_id,
-                "action": "send",
-                "msgtype": WecomMessageType.TEXT.value,
-                "content": "您好，请问有什么可以帮助您的？",
-                "create_time": "1743235200",
-                "stat": "send",
-            },
-            {
-                "msgid": "MSG_ID_002",
-                "openid": open_id,
-                "action": "receive",
-                "msgtype": WecomMessageType.TEXT.value,
-                "content": "我想查询订单",
-                "create_time": "1743235300",
-                "stat": "send",
-            },
-        ],
+        "msg_list": response.get("msg_list", []),
         "continue_token": "continue_token_abc123",
         "has_more": 0,
     }

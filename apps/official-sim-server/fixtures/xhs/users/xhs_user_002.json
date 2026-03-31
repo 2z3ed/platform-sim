@@ -1,0 +1,99 @@
+{
+  "user_id": "xhs_user_002",
+  "platform": "xhs",
+  "name": "吴十",
+  "phone": "136****7890",
+  "created_at": "2026-01-28T10:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "XHS_ORDER_004",
+      "status": "completed",
+      "status_text": "已完成",
+      "amount": "299.00",
+      "items": [
+        {
+          "name": "小红书网红款连衣裙",
+          "quantity": 1,
+          "price": "299.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "吴十",
+        "phone": "136****7890",
+        "address": "福建省厦门市思明区环岛路123号"
+      },
+      "shipment": {
+        "status": "delivered",
+        "company": "小红书配送",
+        "tracking_no": "XH9876543210",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-20T10:00:00+08:00"},
+          {"node": "已签收", "time": "2026-03-22T14:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-18T11:00:00+08:00",
+      "paid_at": "2026-03-18T11:05:00+08:00"
+    },
+    {
+      "order_id": "XHS_ORDER_005",
+      "status": "delivering",
+      "status_text": "配送中",
+      "amount": "49.00",
+      "items": [
+        {
+          "name": "小红书种草的马克杯",
+          "quantity": 1,
+          "price": "49.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "吴十",
+        "phone": "136****7890",
+        "address": "福建省厦门市思明区环岛路123号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "小红书配送",
+        "tracking_no": "XH5555666677",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T15:00:00+08:00"},
+          {"node": "配送中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T11:00:00+08:00",
+      "paid_at": "2026-03-27T11:05:00+08:00"
+    },
+    {
+      "order_id": "XHS_ORDER_006",
+      "status": "refunding",
+      "status_text": "退款中",
+      "amount": "199.00",
+      "items": [
+        {
+          "name": "网红同款护肤仪",
+          "quantity": 1,
+          "price": "199.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "吴十",
+        "phone": "136****7890",
+        "address": "福建省厦门市思明区环岛路123号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunding",
+        "amount": "199.00",
+        "reason": "效果不好",
+        "apply_time": "2026-03-29T15:00:00+08:00"
+      },
+      "created_at": "2026-03-28T14:00:00+08:00",
+      "paid_at": "2026-03-28T14:05:00+08:00"
+    }
+  ]
+}

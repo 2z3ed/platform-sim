@@ -2,9 +2,43 @@
   "platform": "kuaishou",
   "fixture_type": "order",
   "scenario_key": "order_confirmed",
-  "description": "快手订单已确认收货状态",
+  "description": "订单已确认待发货状态 - 官方快手订单结构",
+  "official_api": "open.order.detail",
   "initial_state": {
     "order_status": "confirmed"
+  },
+  "response": {
+    "order": {
+      "orderId": "KS12345678901234",
+      "orderNo": "KS_NO_20260329001",
+      "orderStatus": 12,
+      "statusDesc": "待发货",
+      "totalAmount": 19900,
+      "payAmount": 19900,
+      "freightAmount": 0,
+      "discountAmount": 0,
+      "buyerNick": "ks_user_12345",
+      "receiver": {
+        "name": "张三",
+        "phone": "138****0000",
+        "province": "浙江省",
+        "city": "杭州市",
+        "district": "余杭区",
+        "address": "文一西路999号"
+      },
+      "productItems": [
+        {
+          "itemId": "12345678900",
+          "itemName": "快手仿真商品A",
+          "itemCount": 2,
+          "price": 4950
+        }
+      ],
+      "createTime": 1743264000,
+      "payTime": 1743264300,
+      "deliveryStatus": 10,
+      "refundStatus": 0
+    }
   },
   "expected_artifacts": [
     {
@@ -14,7 +48,8 @@
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "2.0",
+    "official_doc": "https://open.kwaixiaodian.com/docs/api?apiName=open.order.detail&version=1",
     "created_at": "2026-03-29"
   }
 }

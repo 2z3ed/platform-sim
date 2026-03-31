@@ -1,0 +1,107 @@
+{
+  "user_id": "jd_user_002",
+  "platform": "jd",
+  "name": "李四",
+  "phone": "139****5678",
+  "created_at": "2026-02-01T10:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "JD_ORDER_004",
+      "status": "delivered",
+      "status_text": "已签收",
+      "amount": "1299.00",
+      "items": [
+        {
+          "name": "华为 Mate 60 Pro 512GB",
+          "quantity": 1,
+          "price": "1299.00",
+          "sku_id": "SKU111222333"
+        }
+      ],
+      "receiver": {
+        "name": "李四",
+        "phone": "139****5678",
+        "address": "北京市朝阳区建国路88号"
+      },
+      "shipment": {
+        "status": "delivered",
+        "company": "京东物流",
+        "tracking_no": "JD9876543210",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-20T10:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-21T08:00:00+08:00"},
+          {"node": "派送中", "time": "2026-03-22T09:00:00+08:00"},
+          {"node": "已签收", "time": "2026-03-22T14:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-18T11:00:00+08:00",
+      "paid_at": "2026-03-18T11:05:00+08:00"
+    },
+    {
+      "order_id": "JD_ORDER_005",
+      "status": "completed",
+      "status_text": "已完成",
+      "amount": "88.50",
+      "items": [
+        {
+          "name": "数据线 Type-C 快充线",
+          "quantity": 3,
+          "price": "29.50",
+          "sku_id": "SKU333222111"
+        }
+      ],
+      "receiver": {
+        "name": "李四",
+        "phone": "139****5678",
+        "address": "北京市朝阳区建国路88号"
+      },
+      "shipment": {
+        "status": "delivered",
+        "company": "京东物流",
+        "tracking_no": "JD5555666677",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-15T10:00:00+08:00"},
+          {"node": "已签收", "time": "2026-03-17T16:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-14T09:00:00+08:00",
+      "paid_at": "2026-03-14T09:10:00+08:00"
+    },
+    {
+      "order_id": "JD_ORDER_006",
+      "status": "refunding",
+      "status_text": "退款中",
+      "amount": "399.00",
+      "items": [
+        {
+          "name": "无线蓝牙键盘",
+          "quantity": 1,
+          "price": "399.00",
+          "sku_id": "SKU777888999"
+        }
+      ],
+      "receiver": {
+        "name": "李四",
+        "phone": "139****5678",
+        "address": "北京市朝阳区建国路88号"
+      },
+      "shipment": {
+        "status": "pending",
+        "company": null,
+        "tracking_no": null,
+        "nodes": []
+      },
+      "refund": {
+        "status": "refunding",
+        "amount": "399.00",
+        "reason": "拍错了，不想要了",
+        "apply_time": "2026-03-29T16:00:00+08:00",
+        "audit_time": null
+      },
+      "created_at": "2026-03-28T15:00:00+08:00",
+      "paid_at": "2026-03-28T15:05:00+08:00"
+    }
+  ]
+}

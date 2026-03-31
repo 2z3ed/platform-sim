@@ -14,6 +14,8 @@ class TaobaoAdapter:
     def to_unified_order(platform_data: Dict[str, Any]) -> UnifiedOrder:
         trade = platform_data.get("trade", {})
         orders_list = platform_data.get("orders", {}).get("order", [])
+        if not orders_list:
+            orders_list = trade.get("orders", {}).get("order", [])
 
         receiver = UnifiedAddress(
             name=trade.get("receiver_name", ""),
@@ -23,7 +25,7 @@ class TaobaoAdapter:
 
         products = [
             UnifiedProduct(
-                product_id=order.get("oid", ""),
+                product_id=str(order.get("oid", "")),
                 name=order.get("title", ""),
                 price=order.get("price", "0"),
                 quantity=order.get("num", 1),
@@ -37,6 +39,10 @@ class TaobaoAdapter:
             "shipped": OrderStatus.SHIPPED,
             "trade_closed": OrderStatus.TRADE_CLOSED,
             "finished": OrderStatus.FINISHED,
+            "WAIT_BUYER_PAY": OrderStatus.WAIT_PAY,
+            "WAIT_SELLER_SEND_GOODS": OrderStatus.WAIT_SHIP,
+            "WAIT_BUYER_CONFIRM_GOODS": OrderStatus.SHIPPED,
+            "TRADE_FINISHED": OrderStatus.FINISHED,
         }
 
         return UnifiedOrder(

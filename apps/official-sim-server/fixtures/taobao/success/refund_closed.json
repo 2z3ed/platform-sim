@@ -1,0 +1,52 @@
+{
+  "platform": "taobao",
+  "fixture_type": "refund",
+  "scenario_key": "refund_closed",
+  "description": "退款关闭状态 - 官方 taobao.trade.refund.get 完整结构",
+  "official_api": "taobao.trade.refund.get",
+  "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=56",
+  "initial_state": {
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "refund_status": "CLOSED"
+  },
+  "response": {
+    "refund": {
+      "refund_id": 12345678901247,
+      "tid": 12345678901247,
+      "oid": 123456789012471,
+      "status": "CLOSED",
+      "refund_fee": "0.00",
+      "total_fee": "199.00",
+      "payment": "199.00",
+      "reason": "不想要了",
+      "description": "买家取消退款申请",
+      "buyer_nick": "tb_user_12345",
+      "seller_nick": "tb_shop_12345",
+      "created": "2026-03-26 10:00:00",
+      "modified": "2026-03-27 10:00:00",
+      "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+      "sku_id": "",
+      "num_iid": 1234567898,
+      "title": "官方仿真商品I",
+      "price": "99.50",
+      "num": 2,
+      "goods_status": "buyer_received",
+      "has_good_return": false,
+      "logistics_company": "圆通速递",
+      "invoice_no": "YT1234567891",
+      "shipping_type": "express"
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "refund_detail",
+      "step": 0,
+      "description": "退款关闭详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=56",
+    "created_at": "2026-03-30"
+  }
+}

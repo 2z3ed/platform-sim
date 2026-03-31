@@ -7,6 +7,16 @@
 - 订单/物流/售后分域清晰
 - 物流轨迹与发货动作重要
 
+**Agent 集成方式**：
+- User Agent 生成用户行为（付款、申请退款、催发货等）
+- official-sim-server 基于 fixtures/jd/ 返回官方级 payload
+- 前端/AI 直接消费 unified 层，不感知平台差异
+
+**Fixture 使用原则**：
+- 官方 API payload 必须从 fixtures/jd/ 加载
+- 不得使用 profile.py 硬编码函数返回简化版
+- fixtures/ 字段必须与 docs/official_api/OFFICIAL_API_FIELDS.md 一致
+
 P0 只做骨架，不做完整平台实现。
 
 ---

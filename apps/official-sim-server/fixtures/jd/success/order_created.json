@@ -2,19 +2,77 @@
   "platform": "jd",
   "fixture_type": "order",
   "scenario_key": "order_created",
-  "description": "京东订单已创建状态",
+  "description": "订单待付款状态 - 官方京东 jingdong.order.get 完整结构",
+  "official_api": "jingdong.order.get",
+  "official_doc": "https://blog.csdn.net/api_open/article/details/149331665",
   "initial_state": {
-    "order_status": "created"
+    "order_status": "31000"
+  },
+  "response": {
+    "order": {
+      "orderId": "98765432101234",
+      "srcOrderId": "JD20260329001",
+      "orderStatus": 31000,
+      "status": "WAIT_BUYER_PAY",
+      "statusDesc": "待支付",
+      "totalPrice": 19900,
+      "paymentAmount": 0,
+      "freightAmount": 0,
+      "discountAmount": 0,
+      "taxAmount": 0,
+      "actualPrice": 0,
+      "buyerNick": "jd_user_12345",
+      "pin": "jd_user_12345",
+      "receiver": {
+        "name": "张三",
+        "phone": "138****0000",
+        "province": "浙江省",
+        "city": "杭州市",
+        "district": "余杭区",
+        "address": "文一西路999号",
+        "fullAddress": "浙江省杭州市余杭区文一西路999号"
+      },
+      "productItems": [
+        {
+          "skuId": "100012345678",
+          "outerSkuId": "JD_SKU_001",
+          "skuName": "京东仿真商品A",
+          "jdPrice": 9900,
+          "num": 2,
+          "price": 9900,
+          "discountAmount": 0,
+          "taxAmount": 0,
+          "actualPrice": 9900,
+          "picUrl": "https://img.jd.com/xxx.jpg"
+        }
+      ],
+      "invoiceInfo": {},
+      "orderPriceDetail": {
+        "skuOriginalPrice": 19900,
+        "orderDiscountAmount": 0,
+        "orderFreight": 0,
+        "orderTax": 0,
+        "orderAmount": 19900
+      },
+      "paymentType": 4,
+      "deliveryType": 1,
+      "createTime": "2026-03-29 10:00:00",
+      "payTime": "",
+      "consignTime": "",
+      "endTime": "",
+      "modifyTime": "2026-03-29 10:00:00"
+    }
   },
   "expected_artifacts": [
     {
       "artifact_type": "order_detail",
       "step": 0,
-      "description": "已创建订单详情"
+      "description": "待付款订单详情"
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "3.0",
+    "official_doc": "https://blog.csdn.net/api_open/article/details/149331665",
     "created_at": "2026-03-29"
   }
 }

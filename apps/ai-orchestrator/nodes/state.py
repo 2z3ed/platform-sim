@@ -1,5 +1,5 @@
 from typing import Dict, Any, List, Optional, Literal
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from enum import Enum
 
 
@@ -32,6 +32,8 @@ class RuleCheckRequest(BaseModel):
 
 
 class OrchestratorState(BaseModel):
+    model_config = ConfigDict(use_enum_values=True)
+
     status: AgentStatus = AgentStatus.IDLE
     current_order_id: Optional[str] = None
     current_platform: Optional[str] = None
@@ -42,6 +44,3 @@ class OrchestratorState(BaseModel):
     messages: List[Dict[str, Any]] = Field(default_factory=list)
     errors: List[str] = Field(default_factory=list)
     next_node: Optional[Literal["suggestion", "rule_check", "end"]] = None
-
-    class Config:
-        use_enum_values = True

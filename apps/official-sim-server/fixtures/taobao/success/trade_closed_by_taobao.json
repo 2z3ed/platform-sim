@@ -1,0 +1,89 @@
+{
+  "platform": "taobao",
+  "fixture_type": "order",
+  "scenario_key": "trade_closed_by_taobao",
+  "description": "由淘宝关闭交易状态 - 官方 taobao.trade.fullinfo.get 完整结构",
+  "official_api": "taobao.trade.fullinfo.get",
+  "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=54",
+  "initial_state": {
+    "order_status": "TRADE_CLOSED_BY_TAOBAO"
+  },
+  "response": {
+    "trade": {
+      "tid": 12345678901243,
+      "status": "TRADE_CLOSED_BY_TAOBAO",
+      "type": "fixed",
+      "environment": 1,
+      "buyer_open_uid": "AAHm3dH9FFFFF",
+      "seller_nick": "tb_shop_12345",
+      "buyer_nick": "tb_user_12345",
+      "created": "2026-03-15 10:00:00",
+      "modified": "2026-03-15 12:00:00",
+      "pay_time": "",
+      "consign_time": "",
+      "end_time": "2026-03-15 12:00:00",
+      "total_fee": "199.00",
+      "payment": "0.00",
+      "post_fee": "0.00",
+      "discount_fee": "0.00",
+      "adjust_fee": "0.00",
+      "coupon_fee": "0.00",
+      "point_fee": "0.00",
+      "tmall_coupon_fee": "0.00",
+      "has_yfx": false,
+      "yfx_fee": "0.00",
+      "yfx_id": "0",
+      "logistics_type": "express",
+      "step_trade_status": "",
+      "step_paid_fee": "0.00",
+      "buyer_message": "",
+      "seller_memo": "",
+      "receiver_name": "孙七",
+      "receiver_mobile": "135****7890",
+      "receiver_phone": "",
+      "receiver_state": "江苏省",
+      "receiver_city": "南京市",
+      "receiver_district": "鼓楼区",
+      "receiver_address": "新街口",
+      "receiver_zip": "210005",
+      "orders": {
+        "order": [
+          {
+            "oid": 123456789012431,
+            "num_iid": 1234567894,
+            "title": "官方仿真商品E",
+            "price": "199.00",
+            "num": 1,
+            "sku_id": "",
+            "sku_properties_name": "",
+            "item_meal_name": "",
+            "pic_path": "https://img.alicdn.com/tb5.jpg",
+            "pic_url": "https://img.alicdn.com/tb5.jpg",
+            "refund_status": "no_refund",
+            "status": "TRADE_CLOSED_BY_TAOBAO",
+            "payment": "0.00",
+            "discount_fee": "0.00",
+            "adjust_fee": "0.00",
+            "coupon_fee": "0.00",
+            "point_fee": "0.00",
+            "logistics_company": "",
+            "invoice_no": "",
+            "is_oversold": false
+          }
+        ]
+      }
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "order_detail",
+      "step": 0,
+      "description": "淘宝关闭交易订单详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=54",
+    "created_at": "2026-03-30"
+  }
+}

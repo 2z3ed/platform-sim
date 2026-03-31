@@ -1,0 +1,78 @@
+{
+  "platform": "xhs",
+  "fixture_type": "order",
+  "scenario_key": "order_closed",
+  "description": "订单已关闭状态 - 官方小红书 order.getOrderDetail 完整结构",
+  "official_api": "order.getOrderDetail",
+  "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
+  "initial_state": {
+    "order_status": "8"
+  },
+  "response": {
+    "order": {
+      "orderId": "XHS12345678901237",
+      "outOrderId": "XHS_OUT_20260326001",
+      "orderType": 1,
+      "orderTypeDesc": "普通订单",
+      "orderStatus": 8,
+      "statusDesc": "已关闭",
+      "totalAmount": 19900,
+      "payAmount": 0,
+      "postAmount": 0,
+      "discountAmount": 0,
+      "taxAmount": 0,
+      "actuallyPayAmount": 0,
+      "buyerNick": "xhs_user_12348",
+      "zoneCodes": [],
+      "transferExtendInfo": {},
+      "internationalExpressNo": "",
+      "orderDeclaredAmount": "",
+      "paintMarker": "",
+      "collectionPlace": "",
+      "threeSegmentCode": "",
+      "openAddressId": "",
+      "receiver": {
+        "name": "赵六",
+        "phone": "136****3456",
+        "province": "北京市",
+        "city": "北京市",
+        "district": "朝阳区",
+        "address": "望京SOHO",
+        "fullAddress": "北京市朝阳区望京SOHO"
+      },
+      "productItems": [
+        {
+          "itemId": "12345678904",
+          "outItemId": "",
+          "skuId": "",
+          "outSkuId": "",
+          "itemName": "小红书仿真商品D",
+          "skuName": "",
+          "itemCount": 1,
+          "price": 19900,
+          "discountAmount": 0,
+          "taxAmount": 0,
+          "actuallyPayAmount": 0,
+          "picUrl": "https://img.xhscdn.com/xxx5.jpg"
+        }
+      ],
+      "createTime": 1743004800,
+      "payTime": 0,
+      "confirmTime": 0,
+      "cancelTime": 1743091200,
+      "cancelReason": "超时未付款"
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "order_detail",
+      "step": 0,
+      "description": "已关闭订单详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
+    "created_at": "2026-03-30"
+  }
+}

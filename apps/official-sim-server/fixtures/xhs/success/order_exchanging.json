@@ -1,0 +1,94 @@
+{
+  "platform": "xhs",
+  "fixture_type": "order",
+  "scenario_key": "order_exchanging",
+  "description": "订单换货申请中状态 - 官方小红书 order.getOrderDetail 完整结构",
+  "official_api": "order.getOrderDetail",
+  "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
+  "initial_state": {
+    "order_status": "10"
+  },
+  "response": {
+    "order": {
+      "orderId": "XHS12345678901239",
+      "outOrderId": "XHS_OUT_20260324001",
+      "orderType": 1,
+      "orderTypeDesc": "普通订单",
+      "orderStatus": 10,
+      "statusDesc": "换货申请中",
+      "orderAfterSalesStatus": 2,
+      "totalAmount": 39900,
+      "payAmount": 39900,
+      "postAmount": 0,
+      "discountAmount": 0,
+      "taxAmount": 0,
+      "actuallyPayAmount": 39900,
+      "buyerNick": "xhs_user_12350",
+      "zoneCodes": [],
+      "transferExtendInfo": {},
+      "internationalExpressNo": "",
+      "orderDeclaredAmount": "",
+      "paintMarker": "",
+      "collectionPlace": "",
+      "threeSegmentCode": "",
+      "openAddressId": "",
+      "receiver": {
+        "name": "周八",
+        "phone": "134****1234",
+        "province": "四川省",
+        "city": "成都市",
+        "district": "高新区",
+        "address": "天府软件园",
+        "fullAddress": "四川省成都市高新区天府软件园"
+      },
+      "productItems": [
+        {
+          "itemId": "12345678906",
+          "outItemId": "",
+          "skuId": "",
+          "outSkuId": "",
+          "itemName": "小红书仿真商品F",
+          "skuName": "",
+          "itemCount": 1,
+          "price": 39900,
+          "discountAmount": 0,
+          "taxAmount": 0,
+          "actuallyPayAmount": 39900,
+          "picUrl": "https://img.xhscdn.com/xxx7.jpg"
+        }
+      ],
+      "logistics": {
+        "logisticsCompany": "圆通速递",
+        "trackingNo": "YT1234567890",
+        "status": "delivered",
+        "deliveryStatus": 3
+      },
+      "afterSaleInfo": {
+        "afterSaleId": "AS1234567890",
+        "afterSaleType": "exchange",
+        "afterSaleStatus": 2,
+        "afterSaleStatusDesc": "处理中",
+        "applyReason": "尺码不合适",
+        "applyTime": 1743350400
+      },
+      "createTime": 1742832000,
+      "payTime": 1742832300,
+      "confirmTime": 1742832300,
+      "deliveryTime": 1742918400,
+      "cancelTime": 0,
+      "cancelReason": ""
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "order_detail",
+      "step": 0,
+      "description": "换货申请中订单详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
+    "created_at": "2026-03-30"
+  }
+}

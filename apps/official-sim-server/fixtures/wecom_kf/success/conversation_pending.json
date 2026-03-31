@@ -2,19 +2,48 @@
   "platform": "wecom_kf",
   "fixture_type": "conversation",
   "scenario_key": "conversation_pending",
-  "description": "会话待开始状态",
+  "description": "会话待接入状态 - 官方企微客服结构",
+  "official_api": "wecom.kf.customer_msg.list",
   "initial_state": {
     "conversation_status": "pending"
   },
+  "response": {
+    "msg_list": [
+      {
+        "msgid": "MSG_9876543210",
+        "action": "send",
+        "msg_type": "text",
+        "content": "您好，我想查询订单状态",
+        "from_userid": "wooo12345",
+        "origin": 3,
+        "create_time": 1743267600,
+        "conversation_id": "CONV_1234567890",
+        "scene": "customer_service"
+      }
+    ],
+    "conversation": {
+      "conversation_id": "CONV_1234567890",
+      "status": "pending",
+      "customer": {
+        "external_userid": "wooo12345",
+        "nickname": "张三",
+        "avatar": "https://xxx.qq.com/avatar.jpg"
+      },
+      "welcome_msg": "您好，请问有什么可以帮助您的？",
+      "create_time": 1743267600,
+      "update_time": 1743267600
+    }
+  },
   "expected_artifacts": [
     {
-      "artifact_type": "conversation_snapshot",
+      "artifact_type": "conversation_detail",
       "step": 0,
-      "description": "待开始会话快照"
+      "description": "待接入会话详情"
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "2.0",
+    "official_doc": "https://qiyeweixin.apifox.cn/api-10061327",
     "created_at": "2026-03-29"
   }
 }

@@ -1,6 +1,7 @@
 from typing import Dict, Any, Optional, List
 import httpx
 from providers.base.provider import BaseProvider, ProviderMode
+from providers.utils.fixture_loader import FixtureLoader
 
 
 class JdProvider(BaseProvider):
@@ -23,28 +24,33 @@ class JdProvider(BaseProvider):
         return self._real_get_order(order_id)
 
     def _mock_get_order(self, order_id: str) -> Dict[str, Any]:
+        fixture = FixtureLoader.get_response("jd", "order_paid")
+        data = fixture["jingdong_order_search_responce"]
+        order_id_int = int(order_id.replace("JD_ORDER_", "").replace("JD", "0")) if not order_id.isdigit() else int(order_id)
         return {
             "order_id": order_id,
             "status": "wait_seller_delivery",
-            "total_amount": "199.99",
-            "pay_amount": "199.99",
-            "freight": "0.00",
+            "status_code": data["orderStatus"],
+            "total_amount": str(data["orderTotalMoney"] / 100),
+            "pay_amount": str(data["orderBuyerPayableMoney"] / 100),
+            "freight": str(data["orderFreightMoney"] / 100),
             "receiver": {
-                "name": "王五",
-                "phone": "137****7000",
-                "address": "北京市朝阳区",
+                "name": data.get("buyerFullName"),
+                "phone": data.get("buyerMobile"),
+                "address": data.get("buyerFullAddress"),
             },
             "items": [
                 {
-                    "item_id": f"JD_ITEM_{i}",
-                    "name": f"京东商品{i}",
-                    "price": "99.99",
-                    "quantity": 2,
+                    "item_id": str(p.get("skuId", "")),
+                    "name": p.get("skuName", ""),
+                    "price": str(p.get("price", 0) / 100),
+                    "quantity": p.get("num", 1),
                 }
-                for i in range(1, 3)
+                for p in data.get("product", [])
             ],
-            "create_time": "2026-03-01 10:00:00",
-            "update_time": "2026-03-29 12:00:00",
+            "create_time": data.get("orderStartTime"),
+            "update_time": data.get("orderStatusTime"),
+            "_raw_response": fixture,
         }
 
     async def _real_get_order(self, order_id: str) -> Dict[str, Any]:
@@ -66,15 +72,17 @@ class JdProvider(BaseProvider):
         return self._real_list_orders(page, page_size)
 
     def _mock_list_orders(self, page: int, page_size: int) -> Dict[str, Any]:
+        fixture = FixtureLoader.get_response("jd", "order_paid")
+        data = fixture["jingdong_order_search_responce"]
+        orders = []
+        for i in range(page_size):
+            orders.append({
+                "order_id": f"JD_ORDER_{page}_{i}",
+                "status": "wait_seller_delivery",
+                "total_amount": str(data["orderTotalMoney"] / 100),
+            })
         return {
-            "order_list": [
-                {
-                    "order_id": f"JD_ORDER_{page}_{i}",
-                    "status": "wait_seller_delivery",
-                    "total_amount": "199.99",
-                }
-                for i in range(page_size)
-            ],
+            "order_list": orders,
             "total_count": 100,
             "page": page,
             "page_size": page_size,
@@ -86,24 +94,19 @@ class JdProvider(BaseProvider):
         return self._real_get_shipment(order_id)
 
     def _mock_get_shipment(self, order_id: str) -> Dict[str, Any]:
+        fixture = FixtureLoader.get_response("jd", "order_shipped")
+        data = fixture["jingdong_order_search_responce"]
         return {
             "order_id": order_id,
-            "shipment_id": f"JD_SHIP_{order_id}",
             "status": "in_transit",
-            "company": "京东物流",
-            "tracking_no": "JD1234567890",
-            "nodes": [
-                {
-                    "node": "已出库",
-                    "time": "2026-03-15 14:00:00",
-                    "description": "商品已从仓库发出",
-                },
-                {
-                    "node": "运输中",
-                    "time": "2026-03-16 08:00:00",
-                    "description": "快件正在运输途中",
-                },
-            ],
+            "status_code": data["orderStatus"],
+            "company": data.get("deliveryCarrierName"),
+            "tracking_no": data.get("deliveryBillNo"),
+            "delivery_man": data.get("deliveryManName"),
+            "delivery_phone": data.get("deliveryManPhone"),
+            "package_weight": data.get("deliveryPackageWeight"),
+            "confirm_time": data.get("deliveryConfirmTime"),
+            "_raw_response": fixture,
         }
 
     def get_refund(self, refund_id: str) -> Dict[str, Any]:
@@ -112,14 +115,17 @@ class JdProvider(BaseProvider):
         return self._real_get_refund(refund_id)
 
     def _mock_get_refund(self, refund_id: str) -> Dict[str, Any]:
+        fixture = FixtureLoader.get_response("jd", "refund_applied")
+        refund = fixture.get("refund", {})
         return {
             "refund_id": refund_id,
-            "order_id": "JD_ORDER_001",
+            "order_id": refund.get("order_id", "JD_ORDER_001"),
             "status": "approved",
-            "refund_amount": "199.99",
-            "reason": "商品不满意",
-            "apply_time": "2026-03-20 10:00:00",
-            "update_time": "2026-03-29 12:00:00",
+            "refund_amount": str(refund.get("refund_amount", 0) / 100),
+            "reason": refund.get("reason_desc", "商品不满意"),
+            "apply_time": refund.get("apply_time"),
+            "update_time": refund.get("update_time"),
+            "_raw_response": fixture,
         }
 
     def create_refund(self, order_id: str, reason: str, amount: str) -> Dict[str, Any]:
@@ -128,13 +134,15 @@ class JdProvider(BaseProvider):
         return self._real_create_refund(order_id, reason, amount)
 
     def _mock_create_refund(self, order_id: str, reason: str, amount: str) -> Dict[str, Any]:
+        fixture = FixtureLoader.get_response("jd", "refund_applied")
+        refund = fixture.get("refund", {})
         return {
             "refund_id": f"JD_REF_{order_id}",
             "order_id": order_id,
-            "status": "applied",
+            "status": refund.get("status", "applied"),
             "refund_amount": amount,
             "reason": reason,
-            "apply_time": "2026-03-29 12:00:00",
+            "apply_time": refund.get("apply_time"),
         }
 
     def get_conversation(self, conversation_id: str) -> Dict[str, Any]:

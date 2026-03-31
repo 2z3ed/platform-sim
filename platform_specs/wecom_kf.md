@@ -8,6 +8,16 @@
 - 会话状态流转重要
 - event message 依赖 code / msg_code 语义
 
+**Agent 集成方式**：
+- User Agent 生成用户行为（进线、发送消息、转人工等）
+- official-sim-server 基于 fixtures/wecom_kf/ 返回官方级 payload
+- 前端/AI 直接消费 unified 层，不感知平台差异
+
+**Fixture 使用原则**：
+- 官方 API payload 必须从 fixtures/wecom_kf/ 加载
+- 不得使用 profile.py 硬编码函数返回简化版
+- fixtures/ 字段必须与 docs/official_api/OFFICIAL_API_FIELDS.md 一致
+
 P0 目标是：
 - callback -> sync_msg -> event message 链路可运行
 - 会话状态可推进

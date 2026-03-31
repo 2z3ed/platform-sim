@@ -1,0 +1,92 @@
+{
+  "user_id": "taobao_user_003",
+  "platform": "taobao",
+  "name": "孙七",
+  "phone": "135****2345",
+  "created_at": "2026-02-05T14:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "TB_ORDER_007",
+      "status": "WAIT_SELLER_SEND_GOODS",
+      "status_text": "等待卖家发货",
+      "amount": "199.00",
+      "items": [
+        {
+          "name": "日系复古衬衫",
+          "quantity": 1,
+          "price": "199.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "孙七",
+        "phone": "135****2345",
+        "address": "四川省成都市武侯区科华北路66号"
+      },
+      "shipment": null,
+      "refund": null,
+      "created_at": "2026-03-29T09:00:00+08:00",
+      "paid_at": "2026-03-29T09:05:00+08:00"
+    },
+    {
+      "order_id": "TB_ORDER_008",
+      "status": "WAIT_BUYER_CONFIRM_GOODS",
+      "status_text": "卖家已发货",
+      "amount": "89.00",
+      "items": [
+        {
+          "name": "纯棉T恤男",
+          "quantity": 1,
+          "price": "89.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "孙七",
+        "phone": "135****2345",
+        "address": "四川省成都市武侯区科华北路66号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "申通快递",
+        "tracking_no": "ST1122334455",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T15:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T11:00:00+08:00",
+      "paid_at": "2026-03-27T11:10:00+08:00"
+    },
+    {
+      "order_id": "TB_ORDER_009",
+      "status": "TRADE_CLOSED",
+      "status_text": "交易关闭",
+      "amount": "399.00",
+      "items": [
+        {
+          "name": "机械键盘87键",
+          "quantity": 1,
+          "price": "399.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "孙七",
+        "phone": "135****2345",
+        "address": "四川省成都市武侯区科华北路66号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunded",
+        "amount": "399.00",
+        "reason": "卖家缺货",
+        "refund_time": "2026-03-26T14:00:00+08:00"
+      },
+      "created_at": "2026-03-25T08:00:00+08:00",
+      "paid_at": "2026-03-25T08:05:00+08:00",
+      "cancelled_at": "2026-03-26T10:00:00+08:00"
+    }
+  ]
+}

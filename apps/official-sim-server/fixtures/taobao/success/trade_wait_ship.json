@@ -2,10 +2,77 @@
   "platform": "taobao",
   "fixture_type": "order",
   "scenario_key": "trade_wait_ship",
-  "description": "订单待发货状态",
+  "description": "订单待发货状态 - 官方 taobao.trade.fullinfo.get 完整结构",
+  "official_api": "taobao.trade.fullinfo.get",
+  "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=54",
   "initial_state": {
-    "order_status": "wait_ship",
-    "refund_status": "no_refund"
+    "order_status": "WAIT_SELLER_SEND_GOODS"
+  },
+  "response": {
+    "trade": {
+      "tid": 12345678901234,
+      "status": "WAIT_SELLER_SEND_GOODS",
+      "type": "fixed",
+      "environment": 1,
+      "buyer_open_uid": "AAHm3dH9BBBBB",
+      "seller_nick": "tb_shop_12345",
+      "buyer_nick": "tb_user_12345",
+      "created": "2026-03-29 10:00:00",
+      "modified": "2026-03-29 10:30:00",
+      "pay_time": "2026-03-29 10:05:00",
+      "consign_time": "",
+      "end_time": "",
+      "total_fee": "199.00",
+      "payment": "199.00",
+      "post_fee": "0.00",
+      "discount_fee": "0.00",
+      "adjust_fee": "0.00",
+      "coupon_fee": "0.00",
+      "point_fee": "0.00",
+      "tmall_coupon_fee": "0.00",
+      "has_yfx": false,
+      "yfx_fee": "0.00",
+      "yfx_id": "0",
+      "logistics_type": "express",
+      "step_trade_status": "",
+      "step_paid_fee": "0.00",
+      "buyer_message": "请尽快发货",
+      "seller_memo": "",
+      "receiver_name": "张三",
+      "receiver_mobile": "138****0000",
+      "receiver_phone": "",
+      "receiver_state": "浙江省",
+      "receiver_city": "杭州市",
+      "receiver_district": "余杭区",
+      "receiver_address": "文一西路999号",
+      "receiver_zip": "311100",
+      "orders": {
+        "order": [
+          {
+            "oid": 123456789012341,
+            "num_iid": 1234567890,
+            "title": "官方仿真商品A",
+            "price": "99.50",
+            "num": 2,
+            "sku_id": "",
+            "sku_properties_name": "",
+            "item_meal_name": "",
+            "pic_path": "https://img.alicdn.com/tb.jpg",
+            "pic_url": "https://img.alicdn.com/tb.jpg",
+            "refund_status": "no_refund",
+            "status": "WAIT_SELLER_SEND_GOODS",
+            "payment": "199.00",
+            "discount_fee": "0.00",
+            "adjust_fee": "0.00",
+            "coupon_fee": "0.00",
+            "point_fee": "0.00",
+            "logistics_company": "",
+            "invoice_no": "",
+            "is_oversold": false
+          }
+        ]
+      }
+    }
   },
   "expected_artifacts": [
     {
@@ -15,7 +82,8 @@
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "3.0",
+    "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=54",
     "created_at": "2026-03-29"
   }
 }

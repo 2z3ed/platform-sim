@@ -1,0 +1,91 @@
+{
+  "user_id": "kuaishou_user_001",
+  "platform": "kuaishou",
+  "name": "张三",
+  "phone": "138****1234",
+  "created_at": "2026-01-22T08:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "KS_ORDER_001",
+      "status": "paid",
+      "status_text": "已付款待发货",
+      "amount": "99.00",
+      "items": [
+        {
+          "name": "快手网红同款T恤",
+          "quantity": 1,
+          "price": "99.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "河南省郑州市金水区花园路88号"
+      },
+      "shipment": null,
+      "refund": null,
+      "created_at": "2026-03-29T10:00:00+08:00",
+      "paid_at": "2026-03-29T10:05:00+08:00"
+    },
+    {
+      "order_id": "KS_ORDER_002",
+      "status": "shipped",
+      "status_text": "已发货",
+      "amount": "69.00",
+      "items": [
+        {
+          "name": "快手带货零食大礼包",
+          "quantity": 1,
+          "price": "69.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "河南省郑州市金水区花园路88号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "快手电商物流",
+        "tracking_no": "KS1234567890",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T10:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T14:00:00+08:00",
+      "paid_at": "2026-03-27T14:05:00+08:00"
+    },
+    {
+      "order_id": "KS_ORDER_003",
+      "status": "refunding",
+      "status_text": "退款中",
+      "amount": "199.00",
+      "items": [
+        {
+          "name": "快手主播推荐面膜",
+          "quantity": 5,
+          "price": "39.80",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "河南省郑州市金水区花园路88号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunding",
+        "amount": "199.00",
+        "reason": "不适合我的肤质",
+        "apply_time": "2026-03-29T12:00:00+08:00"
+      },
+      "created_at": "2026-03-26T20:00:00+08:00",
+      "paid_at": "2026-03-26T20:05:00+08:00"
+    }
+  ]
+}

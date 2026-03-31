@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "conversation_studio_run",
+  "title": "Conversation Studio Run",
+  "description": "Conversation Studio 运行时创建的对象",
+  "type": "object",
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "description": "Run 唯一标识",
+      "example": "cs_run_4ac8dcab"
+    },
+    "platform": {
+      "type": "string",
+      "enum": ["jd", "taobao", "douyin_shop", "wecom_kf", "xhs", "kuaishou"],
+      "description": "平台名称"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "用户ID"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "订单ID"
+    },
+    "conversation_id": {
+      "type": "string",
+      "description": "会话ID"
+    },
+    "scenario_name": {
+      "type": "string",
+      "description": "场景名称",
+      "example": "refund_progress"
+    },
+    "emotion": {
+      "type": "string",
+      "enum": ["calm", "impatient", "angry", "satisfied"],
+      "description": "当前情绪"
+    },
+    "current_turn": {
+      "type": "integer",
+      "description": "当前轮次",
+      "minimum": 0
+    },
+    "max_turns": {
+      "type": "integer",
+      "description": "最大轮次",
+      "minimum": 1,
+      "maximum": 10,
+      "default": 5
+    },
+    "status": {
+      "type": "string",
+      "enum": ["created", "in_progress", "completed", "ended", "failed"],
+      "description": "运行状态"
+    },
+    "end_reason": {
+      "type": "string",
+      "nullable": true,
+      "description": "结束原因"
+    },
+    "total_messages": {
+      "type": "integer",
+      "description": "消息总数"
+    },
+    "reply_source": {
+      "type": "string",
+      "enum": ["official-sim", "stub", "unified"],
+      "description": "回复来源"
+    },
+    "use_official_sim": {
+      "type": "boolean",
+      "description": "是否使用 official-sim 回复"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "创建时间"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "更新时间"
+    }
+  },
+  "required": ["run_id", "platform", "status"]
+}

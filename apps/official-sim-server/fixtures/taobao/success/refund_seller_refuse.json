@@ -1,0 +1,54 @@
+{
+  "platform": "taobao",
+  "fixture_type": "refund",
+  "scenario_key": "refund_seller_refuse",
+  "description": "卖家拒绝退款状态 - 官方 taobao.trade.refund.get 完整结构",
+  "official_api": "taobao.trade.refund.get",
+  "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=56",
+  "initial_state": {
+    "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+    "refund_status": "SELLER_REFUSE_BUYER"
+  },
+  "response": {
+    "refund": {
+      "refund_id": 12345678901248,
+      "tid": 12345678901248,
+      "oid": 123456789012481,
+      "status": "SELLER_REFUSE_BUYER",
+      "refund_fee": "199.00",
+      "total_fee": "199.00",
+      "payment": "199.00",
+      "reason": "商品质量问题",
+      "description": "商品有瑕疵",
+      "buyer_nick": "tb_user_12345",
+      "seller_nick": "tb_shop_12345",
+      "created": "2026-03-25 10:00:00",
+      "modified": "2026-03-26 14:00:00",
+      "order_status": "WAIT_BUYER_CONFIRM_GOODS",
+      "sku_id": "",
+      "num_iid": 1234567899,
+      "title": "官方仿真商品J",
+      "price": "99.50",
+      "num": 2,
+      "goods_status": "buyer_received",
+      "has_good_return": true,
+      "logistics_company": "圆通速递",
+      "invoice_no": "YT1234567892",
+      "shipping_type": "express",
+      "refuse_message": "商品无质量问题，拒绝退款",
+      "refuse_proof": "https://img.alicdn.com/refuse_proof.jpg"
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "refund_detail",
+      "step": 0,
+      "description": "卖家拒绝退款详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://jaq-doc.alibaba.com/doc2/apiDetail.htm?apiId=56",
+    "created_at": "2026-03-30"
+  }
+}

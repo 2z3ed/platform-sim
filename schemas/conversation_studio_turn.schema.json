@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "conversation_studio_turn",
+  "title": "Conversation Studio Turn",
+  "description": "Conversation Studio 每一轮的输出",
+  "type": "object",
+  "properties": {
+    "turn_no": {
+      "type": "integer",
+      "description": "轮次编号",
+      "minimum": 1
+    },
+    "user_message": {
+      "type": "string",
+      "description": "用户消息",
+      "example": "我的退款什么时候到账？"
+    },
+    "reply_message": {
+      "type": "string",
+      "description": "客服/系统回复",
+      "example": "亲，退款正在处理中，预计1-3天到账。"
+    },
+    "reply_source": {
+      "type": "string",
+      "enum": ["official-sim", "stub", "unified"],
+      "description": "回复来源"
+    },
+    "intent": {
+      "type": "string",
+      "description": "用户意图",
+      "enum": [
+        "ask_order_status",
+        "ask_shipment",
+        "ask_refund",
+        "refund_progress",
+        "complain",
+        "product_question",
+        "escalate_to_human",
+        "emotion_upgrade",
+        "thank",
+        "close"
+      ],
+      "example": "ask_refund"
+    },
+    "emotion": {
+      "type": "string",
+      "description": "用户情绪",
+      "enum": ["calm", "impatient", "angry", "satisfied"],
+      "example": "impatient"
+    },
+    "tool_calls": {
+      "type": "array",
+      "description": "本轮调用的工具",
+      "items": {
+        "$ref": "#/definitions/ToolCall"
+      }
+    },
+    "continue_suggested": {
+      "type": "boolean",
+      "description": "是否建议继续下一轮"
+    },
+    "context_snapshot": {
+      "type": "object",
+      "description": "本轮上下文快照",
+      "properties": {
+        "platform": {"type": "string"},
+        "user_id": {"type": "string"},
+        "order_id": {"type": "string"},
+        "order_status": {"type": "string"},
+        "shipment_status": {"type": "string"},
+        "refund_status": {"type": "string"}
+      }
+    }
+  },
+  "required": ["turn_no", "user_message", "reply_message", "reply_source", "intent", "emotion", "continue_suggested"],
+  "definitions": {
+    "ToolCall": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "工具名称",
+          "example": "get_order_summary"
+        },
+        "arguments": {
+          "type": "object",
+          "description": "工具参数",
+          "example": {"order_id": "JD_ORDER_001", "platform": "jd"}
+        },
+        "result": {
+          "type": "object",
+          "description": "工具返回结果"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "是否成功"
+        }
+      },
+      "required": ["name", "arguments"]
+    }
+  }
+}

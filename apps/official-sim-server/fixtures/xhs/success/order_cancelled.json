@@ -1,0 +1,78 @@
+{
+  "platform": "xhs",
+  "fixture_type": "order",
+  "scenario_key": "order_cancelled",
+  "description": "订单已取消状态 - 官方小红书 order.getOrderDetail 完整结构",
+  "official_api": "order.getOrderDetail",
+  "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
+  "initial_state": {
+    "order_status": "9"
+  },
+  "response": {
+    "order": {
+      "orderId": "XHS12345678901238",
+      "outOrderId": "XHS_OUT_20260325001",
+      "orderType": 1,
+      "orderTypeDesc": "普通订单",
+      "orderStatus": 9,
+      "statusDesc": "已取消",
+      "totalAmount": 29900,
+      "payAmount": 29900,
+      "postAmount": 0,
+      "discountAmount": 0,
+      "taxAmount": 0,
+      "actuallyPayAmount": 0,
+      "buyerNick": "xhs_user_12349",
+      "zoneCodes": [],
+      "transferExtendInfo": {},
+      "internationalExpressNo": "",
+      "orderDeclaredAmount": "",
+      "paintMarker": "",
+      "collectionPlace": "",
+      "threeSegmentCode": "",
+      "openAddressId": "",
+      "receiver": {
+        "name": "孙七",
+        "phone": "135****7890",
+        "province": "江苏省",
+        "city": "南京市",
+        "district": "鼓楼区",
+        "address": "新街口",
+        "fullAddress": "江苏省南京市鼓楼区新街口"
+      },
+      "productItems": [
+        {
+          "itemId": "12345678905",
+          "outItemId": "",
+          "skuId": "",
+          "outSkuId": "",
+          "itemName": "小红书仿真商品E",
+          "skuName": "",
+          "itemCount": 1,
+          "price": 29900,
+          "discountAmount": 0,
+          "taxAmount": 0,
+          "actuallyPayAmount": 0,
+          "picUrl": "https://img.xhscdn.com/xxx6.jpg"
+        }
+      ],
+      "createTime": 1742918400,
+      "payTime": 1742918700,
+      "confirmTime": 1742918700,
+      "cancelTime": 1743004800,
+      "cancelReason": "买家主动取消"
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "order_detail",
+      "step": 0,
+      "description": "已取消订单详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
+    "created_at": "2026-03-30"
+  }
+}

@@ -2,19 +2,89 @@
   "platform": "xhs",
   "fixture_type": "order",
   "scenario_key": "order_delivering",
-  "description": "小红书订单配送中状态",
+  "description": "订单配送中状态 - 官方小红书 order.getOrderDetail 完整结构",
+  "official_api": "order.getOrderDetail",
+  "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
   "initial_state": {
     "order_status": "delivering"
+  },
+  "response": {
+    "order": {
+      "orderId": "XHS12345678901234",
+      "outOrderId": "XHS_OUT_20260329001",
+      "orderType": 1,
+      "orderTypeDesc": "普通订单",
+      "orderStatus": "delivering",
+      "statusDesc": "配送中",
+      "totalAmount": 19900,
+      "payAmount": 19900,
+      "postAmount": 0,
+      "discountAmount": 0,
+      "taxAmount": 0,
+      "actuallyPayAmount": 19900,
+      "buyerNick": "xhs_user_12345",
+      "zoneCodes": [],
+      "transferExtendInfo": {},
+      "internationalExpressNo": "",
+      "orderDeclaredAmount": "",
+      "paintMarker": "",
+      "collectionPlace": "",
+      "threeSegmentCode": "",
+      "openAddressId": "",
+      "receiver": {
+        "name": "张三",
+        "phone": "138****0000",
+        "province": "浙江省",
+        "city": "杭州市",
+        "district": "余杭区",
+        "address": "文一西路999号",
+        "fullAddress": "浙江省杭州市余杭区文一西路999号"
+      },
+      "productItems": [
+        {
+          "itemId": "12345678900",
+          "outItemId": "",
+          "skuId": "",
+          "outSkuId": "",
+          "itemName": "小红书仿真商品A",
+          "skuName": "",
+          "itemCount": 2,
+          "price": 4950,
+          "discountAmount": 0,
+          "taxAmount": 0,
+          "actuallyPayAmount": 9900,
+          "picUrl": "https://img.xhscdn.com/xxx.jpg"
+        }
+      ],
+      "logistics": {
+        "logisticsCompany": "顺丰速运",
+        "trackingNo": "SF1234567890",
+        "status": "delivering",
+        "deliveryStatus": 1
+      },
+      "createTime": 1743264000,
+      "payTime": 1743264300,
+      "confirmTime": 1743264300,
+      "deliveryTime": 1743267600,
+      "cancelTime": 0,
+      "cancelReason": ""
+    }
   },
   "expected_artifacts": [
     {
       "artifact_type": "order_detail",
       "step": 0,
       "description": "配送中订单详情"
+    },
+    {
+      "artifact_type": "logistics_detail",
+      "step": 1,
+      "description": "物流信息"
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "3.0",
+    "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
     "created_at": "2026-03-29"
   }
 }

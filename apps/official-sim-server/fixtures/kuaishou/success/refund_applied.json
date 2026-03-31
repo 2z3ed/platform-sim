@@ -2,19 +2,34 @@
   "platform": "kuaishou",
   "fixture_type": "refund",
   "scenario_key": "refund_applied",
-  "description": "快手退款申请中状态",
+  "description": "退款申请状态 - 官方快手退款结构",
+  "official_api": "open.refund.get",
   "initial_state": {
-    "order_status": "refund_applied"
+    "refund_status": "refund_applied"
+  },
+  "response": {
+    "refund": {
+      "refund_id": "KS_REF_123456789",
+      "order_id": "KS12345678901234",
+      "status": "10",
+      "statusDesc": "退款中",
+      "refund_amount": 9900,
+      "reason": "商品损坏",
+      "description": "商品在运输过程中损坏",
+      "apply_time": 1743267600,
+      "update_time": 1743267600
+    }
   },
   "expected_artifacts": [
     {
-      "artifact_type": "refund_snapshot",
+      "artifact_type": "refund_detail",
       "step": 0,
-      "description": "退款申请快照"
+      "description": "退款申请详情"
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "2.0",
+    "official_doc": "https://open.kwaixiaodian.com/docs/api?apiName=open.order.detail&version=1",
     "created_at": "2026-03-29"
   }
 }

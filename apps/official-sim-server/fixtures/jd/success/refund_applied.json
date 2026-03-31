@@ -2,19 +2,128 @@
   "platform": "jd",
   "fixture_type": "refund",
   "scenario_key": "refund_applied",
-  "description": "京东退款申请中状态",
+  "description": "京东退款申请详情 - 官方JOS API格式",
+  "official_api": "jingdong.pop.afs.soa.refundapply.queryById",
+  "official_doc": "https://opendj.jd.com",
   "initial_state": {
-    "order_status": "refunding"
+    "refund_status": "refunding"
+  },
+  "jingdong_refund_apply_query_response": {
+    "code": "0",
+    "message": "success",
+    "result": {
+      "applyId": 8820123456789,
+      "customerPin": "jd_buyer_001",
+      "customerName": "张三",
+      "orderId": 98765432101234,
+      "parentOrderId": 98765432101230,
+      "skuId": 100012345678,
+      "skuName": "iPhone 15 Pro Max 256GB 深空黑色",
+      "skuNum": 1,
+      "afsApplyTime": "2026-03-29 10:30:00",
+      "questionDesc": "商品损坏",
+      "questionPic": [
+        "https://img12.360buyimg.com/shaidan/s800x800_jfs/t1/123456/789/123456/123456/abc12345/1234567890abc123.jpg"
+      ],
+      "refundType": 2,
+      "refundTypeName": "退货退款",
+      "refundAmount": 999900,
+      "returnwareType": 1,
+      "returnwareTypeName": "上门取件",
+      "pickwareType": 1,
+      "pickwareTypeName": "京东配送",
+      "shipAmount": 0,
+      "isHasPackage": false,
+      "packageWeight": 0,
+      "packageVolume": 0,
+      "invoiceType": 0,
+      "addressId": 123456789,
+      "province": 1,
+      "city": 1,
+      "county": 1,
+      "town": 1,
+      "provinceName": "北京市",
+      "cityName": "北京市",
+      "countyName": "海淀区",
+      "townName": "中关村街道",
+      "addressDetail": "科学院南路2号融科资讯中心A座",
+      "receiveName": "李四",
+      "receiveMobile": "138****1234",
+      "receivePhone": "",
+      "operatorPin": "vender_001",
+      "operatorName": "商家客服",
+      "createTime": "2026-03-29 10:30:00",
+      "updateTime": "2026-03-29 10:30:00",
+      "afsServiceStatus": {
+        "serviceId": 8820123456789,
+        "afsServiceStep": 10,
+        "afsServiceStepName": "待审核",
+        "isDelete": 0,
+        "expressCompany": "JD",
+        "expressNo": "JD1234567890",
+        "approveResult": 0,
+        "approveReason": "",
+        "approveTime": "",
+        "approveName": "",
+        "returnSendTime": "",
+        "returnExpressCompany": "",
+        "returnExpressNo": "",
+        "wareReturnTime": "",
+        "receiveTime": "",
+        "receiveName": "",
+        "receiveReason": ""
+      },
+      "orderType": 0,
+      "businessStepList": [
+        {
+          "step": 1,
+          "stepName": "提交申请",
+          "status": 2,
+          "statusName": "完成",
+          "time": "2026-03-29 10:30:00",
+          "operator": "系统",
+          "remark": ""
+        },
+        {
+          "step": 2,
+          "stepName": "审核通过",
+          "status": 0,
+          "statusName": "待处理",
+          "time": "",
+          "operator": "",
+          "remark": ""
+        },
+        {
+          "step": 3,
+          "stepName": "京东收货",
+          "status": 0,
+          "statusName": "待处理",
+          "time": "",
+          "operator": "",
+          "remark": ""
+        },
+        {
+          "step": 4,
+          "stepName": "退款完成",
+          "status": 0,
+          "statusName": "待处理",
+          "time": "",
+          "operator": "",
+          "remark": ""
+        }
+      ]
+    }
   },
   "expected_artifacts": [
     {
-      "artifact_type": "refund_snapshot",
+      "artifact_type": "refund_detail",
       "step": 0,
-      "description": "退款申请快照"
+      "description": "退款申请详情"
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "3.0",
+    "official_doc": "https://opendj.jd.com",
     "created_at": "2026-03-29"
   }
 }

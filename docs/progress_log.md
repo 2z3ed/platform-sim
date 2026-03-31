@@ -280,5 +280,47 @@ All P0 milestones completed:
 - ✅ P1: jd profile 骨架 (8 fixtures + tests)
 - ✅ P1: xhs profile 骨架 (7 fixtures + tests)
 - ✅ P2: kuaishou profile 骨架 (7 fixtures + tests)
+- ✅ P0+P1+P2 完成！总测试数: 265 passed
 
-**P0+P1+P2 完成！总测试数: 265 passed**
+---
+
+## M11: Conversation Studio 多轮对话工作台
+
+- **状态**: ✅ DONE
+- **开始时间**: 2026-03-30
+- **完成时间**: 2026-03-30
+- **目标**: 实现多轮对话仿真工作台
+
+- **实际完成**:
+  - P0-1: Reply Adapter (OfficialSim + Stub 双模式)
+  - P0-2: 多轮上下文管理器 (ConversationContext)
+  - P0-3: 双循环 LangGraph 状态机 (ConversationStudioGraph)
+  - P0-4: API 路由 (5个接口)
+  - P0-5: 前端界面 (三栏布局)
+  - P0-6: 完整多轮对话测试
+  - 创建 JSON Schema:
+    - `schemas/conversation_studio_run.schema.json`
+    - `schemas/conversation_studio_turn.schema.json`
+
+- **新增文件**:
+  - `apps/ai-orchestrator/nodes/reply/` (4个文件)
+  - `apps/ai-orchestrator/nodes/conversation/context.py`
+  - `apps/ai-orchestrator/nodes/conversation_studio.py`
+  - `apps/ai-orchestrator/api/routes/conversation_studio.py`
+  - `apps/ai-orchestrator/static/conversation_studio.html`
+  - `schemas/conversation_studio_run.schema.json`
+  - `schemas/conversation_studio_turn.schema.json`
+
+- **未完成项**: 无
+
+- **阻塞**: 无
+
+- **下一步**: P1 情绪升级、重复追问、转人工
+
+- **验证命令**:
+  ```bash
+  cd /home/kkk/Project/platform-sim
+  python -c "from apps.ai-orchestrator.nodes.conversation_studio import ConversationStudioGraph; print('OK')"
+  ```
+
+- **结果**: ✅ 通过

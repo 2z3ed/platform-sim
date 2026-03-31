@@ -1,5 +1,10 @@
 from typing import Dict, Any, List, Optional
 from enum import Enum
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+from providers.utils.fixture_loader import FixtureLoader
 
 
 class XhsOrderStatus(str, Enum):
@@ -76,45 +81,72 @@ ORDER_SCENARIOS = {
 }
 
 
+STATUS_TO_SCENARIO = {
+    XhsOrderStatus.CREATED: "order_created",
+    XhsOrderStatus.PAID: "order_paid",
+    XhsOrderStatus.DELIVERING: "order_delivering",
+    XhsOrderStatus.DELIVERED: "order_delivering",
+    XhsOrderStatus.COMPLETED: "order_completed",
+    XhsOrderStatus.CANCELLED: "order_cancelled",
+    XhsOrderStatus.REFUND_APPLIED: "refund_applied",
+    XhsOrderStatus.REFUND_PROCESSING: "refund_applied",
+    XhsOrderStatus.REFUND_REFUSED: "refund_applied",
+    XhsOrderStatus.REFUNDED: "order_completed",
+}
+
+
+REFUND_STATUS_TO_SCENARIO = {
+    XhsRefundStatus.APPLIED: "refund_applied",
+    XhsRefundStatus.PROCESSING: "refund_applied",
+    XhsRefundStatus.REFUSED: "refund_applied",
+    XhsRefundStatus.REFUNDED: "order_completed",
+}
+
+
 def validate_status_transition(current: XhsOrderStatus, next_status: XhsOrderStatus) -> bool:
     allowed = XHS_ORDER_STATUS_TRANSITIONS.get(current, [])
     return next_status in allowed
 
 
 def get_default_order_payload(order_id: str, status: XhsOrderStatus) -> Dict[str, Any]:
+    scenario_key = STATUS_TO_SCENARIO.get(status, "order_paid")
+    fixture = FixtureLoader.get_response("xhs", scenario_key)
+    order = fixture.get("order", {})
+
+    customs = order.get("customsDeclarationInfo", {})
     return {
         "order_id": order_id,
         "status": status.value,
-        "total_amount": "99.99",
-        "pay_amount": "99.99",
-        "postage": "0.00",
+        "total_amount": str(order.get("totalAmount", 0) / 100),
+        "pay_amount": str(order.get("payAmount", 0) / 100),
+        "postage": str(order.get("postAmount", 0) / 100),
         "receiver": {
-            "name": "赵六",
-            "phone": "13600136000",
-            "address": "广州市天河区",
-            "postal_code": "510000",
+            "name": order.get("receiver", {}).get("name", "赵六"),
+            "phone": order.get("receiver", {}).get("phone", "13600136000"),
+            "address": order.get("receiver", {}).get("fullAddress", "广州市天河区"),
         },
         "customs": {
-            "customs_code": "XHS001",
-            "declared_at": "2026-03-10T10:00:00+08:00",
-            "cleared_at": None,
-            "status": "declared",
+            "customs_code": customs.get("customsDeclarationId", "XHS001"),
+            "declared_at": customs.get("declarationTime", "2026-03-10T10:00:00+08:00"),
+            "cleared_at": customs.get("clearanceTime"),
+            "status": customs.get("customsStatus", "declared"),
         },
-        "note_id": "XHS_NOTE_001",
-        "created_at": "2026-03-01T10:00:00+08:00",
-        "updated_at": "2026-03-29T12:00:00+08:00",
+        "_raw_fixture": fixture,
     }
 
 
 def get_default_refund_payload(order_id: str, refund_id: str, status: XhsRefundStatus) -> Dict[str, Any]:
+    scenario_key = REFUND_STATUS_TO_SCENARIO.get(status, "refund_applied")
+    fixture = FixtureLoader.get_response("xhs", scenario_key)
+    refund = fixture.get("refund", fixture.get("response", {}).get("refund", {}))
     return {
         "order_id": order_id,
         "refund_id": refund_id,
         "status": status.value,
-        "refund_amount": "50.00",
-        "reason": "商品不满意",
-        "apply_time": "2026-03-20T10:00:00+08:00",
-        "update_time": "2026-03-29T12:00:00+08:00",
+        "refund_amount": str(refund.get("refundAmount", refund.get("refund_amount", 5000)) / 100),
+        "reason": refund.get("reason", "商品不满意"),
+        "apply_time": refund.get("applyTime", refund.get("apply_time", "2026-03-20T10:00:00+08:00")),
+        "update_time": refund.get("updateTime", refund.get("update_time", "2026-03-29T12:00:00+08:00")),
     }
 
 

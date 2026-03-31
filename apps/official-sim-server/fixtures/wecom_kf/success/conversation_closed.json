@@ -2,19 +2,40 @@
   "platform": "wecom_kf",
   "fixture_type": "conversation",
   "scenario_key": "conversation_closed",
-  "description": "会话已关闭状态",
+  "description": "会话已关闭状态 - 官方企微客服会话结构",
+  "official_api": "wecom.kf.customer_msg.list",
   "initial_state": {
     "conversation_status": "closed"
   },
+  "response": {
+    "conversation": {
+      "conversation_id": "WK_CONV_123456789",
+      "open_kfid": "wk_xxxxxxxxxxxxx",
+      "external_userid": "wo_xxxxxxxxxxxxx",
+      "status": "closed",
+      "welcome_code": "",
+      "scene": "customer_service",
+      "created_at": 1743264000,
+      "closed_at": 1743267600,
+      "latest_msg": {
+        "msgid": "MSG_987654321",
+        "msg_type": "text",
+        "content": "感谢您的咨询，再见！",
+        "send_time": 1743267600
+      }
+    },
+    "msg_list": []
+  },
   "expected_artifacts": [
     {
-      "artifact_type": "conversation_snapshot",
+      "artifact_type": "conversation_detail",
       "step": 0,
-      "description": "已关闭会话快照"
+      "description": "已关闭会话详情"
     }
   ],
   "metadata": {
-    "version": "1.0",
+    "version": "2.0",
+    "official_doc": "https://developer.work.weixin.qq.com/document/path/97885",
     "created_at": "2026-03-29"
   }
 }

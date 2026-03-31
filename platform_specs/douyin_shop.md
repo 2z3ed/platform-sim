@@ -8,6 +8,16 @@
 - 主动消息推送显著
 - push ACK 与签名验证重要
 
+**Agent 集成方式**：
+- User Agent 生成用户行为（下单、付款、申请退款等）
+- official-sim-server 基于 fixtures/douyin_shop/ 返回官方级 payload
+- 前端/AI 直接消费 unified 层，不感知平台差异
+
+**Fixture 使用原则**：
+- 官方 API payload 必须从 fixtures/douyin_shop/ 加载
+- 不得使用 profile.py 硬编码函数返回简化版
+- fixtures/ 字段必须与 docs/official_api/OFFICIAL_API_FIELDS.md 一致
+
 P0 目标是：
 - 订单与退款状态机可运行
 - push 工件可生成

@@ -1,0 +1,99 @@
+{
+  "user_id": "kuaishou_user_002",
+  "platform": "kuaishou",
+  "name": "冯十二",
+  "phone": "139****5678",
+  "created_at": "2026-02-02T10:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "KS_ORDER_004",
+      "status": "delivered",
+      "status_text": "已送达",
+      "amount": "399.00",
+      "items": [
+        {
+          "name": "快手带货品牌运动鞋",
+          "quantity": 1,
+          "price": "399.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "冯十二",
+        "phone": "139****5678",
+        "address": "辽宁省沈阳市铁西区建设东路66号"
+      },
+      "shipment": {
+        "status": "delivered",
+        "company": "快手电商物流",
+        "tracking_no": "KS9876543210",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-20T10:00:00+08:00"},
+          {"node": "已签收", "time": "2026-03-22T14:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-18T11:00:00+08:00",
+      "paid_at": "2026-03-18T11:05:00+08:00"
+    },
+    {
+      "order_id": "KS_ORDER_005",
+      "status": "shipped",
+      "status_text": "已发货",
+      "amount": "29.90",
+      "items": [
+        {
+          "name": "快手爆款手机支架",
+          "quantity": 2,
+          "price": "14.95",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "冯十二",
+        "phone": "139****5678",
+        "address": "辽宁省沈阳市铁西区建设东路66号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "快手电商物流",
+        "tracking_no": "KS5555666677",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T15:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T11:00:00+08:00",
+      "paid_at": "2026-03-27T11:05:00+08:00"
+    },
+    {
+      "order_id": "KS_ORDER_006",
+      "status": "refunding",
+      "status_text": "退款中",
+      "amount": "159.00",
+      "items": [
+        {
+          "name": "快手主播推荐精华液",
+          "quantity": 1,
+          "price": "159.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "冯十二",
+        "phone": "139****5678",
+        "address": "辽宁省沈阳市铁西区建设东路66号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunding",
+        "amount": "159.00",
+        "reason": "过敏",
+        "apply_time": "2026-03-29T16:00:00+08:00"
+      },
+      "created_at": "2026-03-28T14:00:00+08:00",
+      "paid_at": "2026-03-28T14:05:00+08:00"
+    }
+  ]
+}

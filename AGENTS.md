@@ -4,9 +4,43 @@
 
 本仓库的目标不是实现真实平台接入，而是实现一个"多平台官方行为仿真层 + 客服中台统一层"。
 
+核心价值：**在没有真实官方API和真实用户的情况下，仍能完整开发、测试、联调客服中台系统。**
+
+### 仿真层架构
+
+```
+┌─────────────────────────────────────────────────────┐
+│           完整客服中台系统（可正常开发）               │
+│                                                     │
+│  User Intent ──→ User Agent ──→ official-sim-server │
+│     (用户输入)   (翻译成API调用)   (扮演官方平台)     │
+│                          │              ↓            │
+│                          │         Unified Layer    │
+│                          │              ↓            │
+│                          └────→ AI Orchestrator     │
+│                                     ↓               │
+│                                 前端/坐席工作台      │
+└─────────────────────────────────────────────────────┘
+              ↑ 全程不需要真实用户和真实官方API
+```
+
+**两个独立职责（不是同一个Agent的双重职责）：**
+
+1. **User Agent（AI Orchestrator 内部模块）**：
+   - 输入：用户的自然语言（"我要退款"、"查一下订单"）
+   - 输出：**官方API格式的请求**（调用哪个平台、什么接口、什么参数）
+   - 职责：把用户意图翻译成官方API调用
+
+2. **official-sim-server（独立服务）**：
+   - 输入：来自 User Agent 或其他系统的**官方API调用**
+   - 输出：**官方级API payload**（从 fixtures 加载）
+   - 职责：模拟官方平台返回真实格式的响应
+
 当前要完成的核心工作是：
 
-1. 新增 `official-sim-server`，用于模拟真实用户行为触发后，平台官方 API / callback / webhook 的行为。
+1. 新增 `official-sim-server`，用于：
+   - 模拟真实用户行为触发后，平台官方 API / callback / webhook 的行为
+   - 基于 fixtures 输出官方级完整字段的 payload
 2. 保留现有 `/mock/...` 与 `/mock/unified/...` 契约层，作为中台、AI、前端联调接口。
 3. 通过 provider 层实现 `mock -> real` 可替换，不改上层业务逻辑。
 4. 以可回放、可审计、可测试、可增量扩展为第一优先级。
@@ -16,7 +50,7 @@
    - 报告生成
    - 测试说明
    - 文档整理
-   不能用于定义"官方真实 payload 真相"。
+   不能用于定义"官方真实 payload 真相"（真相来源只能是 fixtures/state machine）。
 
 ---
 
@@ -52,11 +86,13 @@ P0 不做：
 ### 3.1 真相来源
 官方 API 返回、消息推送、错误码、状态推进，必须来自以下组合：
 
+- **fixtures**（主要来源，官方级完整字段）
 - state machine
-- fixtures
 - validators
 - emitters
 - repositories
+
+**official-sim-server 必须从 fixtures/ 加载官方 payload，不得使用硬编码函数返回简化版。**
 
 禁止用 LLM 直接生成"官方真相 payload"。
 

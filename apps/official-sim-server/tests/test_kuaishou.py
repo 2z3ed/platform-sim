@@ -29,7 +29,7 @@ def test_kuaishou_order_payload():
     assert payload["order_id"] == "KS_ORDER_001"
     assert payload["status"] == "paid"
     assert "receiver" in payload
-    assert payload["receiver"]["name"] == "孙七"
+    assert payload["receiver"]["name"] == "张三"
     assert payload["shop_name"] == "快手小店"
 
 

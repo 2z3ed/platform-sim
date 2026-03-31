@@ -1,0 +1,92 @@
+{
+  "user_id": "kuaishou_user_003",
+  "platform": "kuaishou",
+  "name": "陈十三",
+  "phone": "137****9012",
+  "created_at": "2026-02-15T14:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "KS_ORDER_007",
+      "status": "paid",
+      "status_text": "已付款待发货",
+      "amount": "79.00",
+      "items": [
+        {
+          "name": "快手同款家居服",
+          "quantity": 1,
+          "price": "79.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "陈十三",
+        "phone": "137****9012",
+        "address": "陕西省西安市雁塔区科技路88号"
+      },
+      "shipment": null,
+      "refund": null,
+      "created_at": "2026-03-29T09:00:00+08:00",
+      "paid_at": "2026-03-29T09:05:00+08:00"
+    },
+    {
+      "order_id": "KS_ORDER_008",
+      "status": "shipped",
+      "status_text": "已发货",
+      "amount": "59.00",
+      "items": [
+        {
+          "name": "快手爆款保温杯",
+          "quantity": 1,
+          "price": "59.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "陈十三",
+        "phone": "137****9012",
+        "address": "陕西省西安市雁塔区科技路88号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "快手电商物流",
+        "tracking_no": "KS1122334455",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T15:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T11:00:00+08:00",
+      "paid_at": "2026-03-27T11:10:00+08:00"
+    },
+    {
+      "order_id": "KS_ORDER_009",
+      "status": "cancelled",
+      "status_text": "已取消",
+      "amount": "299.00",
+      "items": [
+        {
+          "name": "快手推荐空气炸锅",
+          "quantity": 1,
+          "price": "299.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "陈十三",
+        "phone": "137****9012",
+        "address": "陕西省西安市雁塔区科技路88号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunded",
+        "amount": "299.00",
+        "reason": "不想要了",
+        "refund_time": "2026-03-26T14:00:00+08:00"
+      },
+      "created_at": "2026-03-25T08:00:00+08:00",
+      "paid_at": "2026-03-25T08:05:00+08:00",
+      "cancelled_at": "2026-03-26T10:00:00+08:00"
+    }
+  ]
+}

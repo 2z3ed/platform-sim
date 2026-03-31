@@ -1,0 +1,81 @@
+{
+  "platform": "xhs",
+  "fixture_type": "order",
+  "scenario_key": "order_customs_clearing",
+  "description": "订单清关中状态 - 官方小红书 order.getOrderDetail 完整结构",
+  "official_api": "order.getOrderDetail",
+  "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
+  "initial_state": {
+    "order_status": "3"
+  },
+  "response": {
+    "order": {
+      "orderId": "XHS12345678901235",
+      "outOrderId": "XHS_OUT_20260328001",
+      "orderType": 2,
+      "orderTypeDesc": "跨境订单",
+      "orderStatus": 3,
+      "statusDesc": "清关中",
+      "totalAmount": 39900,
+      "payAmount": 39900,
+      "postAmount": 0,
+      "discountAmount": 0,
+      "taxAmount": 1995,
+      "actuallyPayAmount": 41895,
+      "buyerNick": "xhs_user_12346",
+      "zoneCodes": ["CN", "US"],
+      "transferExtendInfo": {
+        "customsCode": "HG001",
+        "customsName": "杭州海关"
+      },
+      "internationalExpressNo": "IE1234567890",
+      "orderDeclaredAmount": "55.00",
+      "paintMarker": "",
+      "collectionPlace": "洛杉矶",
+      "threeSegmentCode": "",
+      "openAddressId": "",
+      "receiver": {
+        "name": "李四",
+        "phone": "139****5678",
+        "province": "上海市",
+        "city": "上海市",
+        "district": "浦东新区",
+        "address": "张江高科技园区",
+        "fullAddress": "上海市浦东新区张江高科技园区"
+      },
+      "productItems": [
+        {
+          "itemId": "12345678901",
+          "outItemId": "",
+          "skuId": "",
+          "outSkuId": "",
+          "itemName": "小红书跨境商品A",
+          "skuName": "",
+          "itemCount": 1,
+          "price": 39900,
+          "discountAmount": 0,
+          "taxAmount": 1995,
+          "actuallyPayAmount": 41895,
+          "picUrl": "https://img.xhscdn.com/xxx2.jpg"
+        }
+      ],
+      "createTime": 1743177600,
+      "payTime": 1743177900,
+      "confirmTime": 1743177900,
+      "cancelTime": 0,
+      "cancelReason": ""
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "order_detail",
+      "step": 0,
+      "description": "清关中订单详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://xiaohongshu.apifox.cn/api-24201582",
+    "created_at": "2026-03-30"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "user_id": "xhs_user_003",
+  "platform": "xhs",
+  "name": "郑十一",
+  "phone": "135****2345",
+  "created_at": "2026-02-12T14:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "XHS_ORDER_007",
+      "status": "paid",
+      "status_text": "已付款待发货",
+      "amount": "129.00",
+      "items": [
+        {
+          "name": "小红书爆款护手霜",
+          "quantity": 2,
+          "price": "64.50",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "郑十一",
+        "phone": "135****2345",
+        "address": "山东省青岛市南区香港中路66号"
+      },
+      "shipment": null,
+      "refund": null,
+      "created_at": "2026-03-29T09:00:00+08:00",
+      "paid_at": "2026-03-29T09:05:00+08:00"
+    },
+    {
+      "order_id": "XHS_ORDER_008",
+      "status": "delivering",
+      "status_text": "配送中",
+      "amount": "79.00",
+      "items": [
+        {
+          "name": "网红同款香薰蜡烛",
+          "quantity": 1,
+          "price": "79.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "郑十一",
+        "phone": "135****2345",
+        "address": "山东省青岛市南区香港中路66号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "小红书配送",
+        "tracking_no": "XH1122334455",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T15:00:00+08:00"},
+          {"node": "配送中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T11:00:00+08:00",
+      "paid_at": "2026-03-27T11:10:00+08:00"
+    },
+    {
+      "order_id": "XHS_ORDER_009",
+      "status": "cancelled",
+      "status_text": "已取消",
+      "amount": "399.00",
+      "items": [
+        {
+          "name": "小红书推荐美容仪",
+          "quantity": 1,
+          "price": "399.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "郑十一",
+        "phone": "135****2345",
+        "address": "山东省青岛市南区香港中路66号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunded",
+        "amount": "399.00",
+        "reason": "拍错了",
+        "refund_time": "2026-03-26T14:00:00+08:00"
+      },
+      "created_at": "2026-03-25T08:00:00+08:00",
+      "paid_at": "2026-03-25T08:05:00+08:00",
+      "cancelled_at": "2026-03-26T10:00:00+08:00"
+    }
+  ]
+}

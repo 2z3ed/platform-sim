@@ -1,0 +1,91 @@
+{
+  "user_id": "xhs_user_001",
+  "platform": "xhs",
+  "name": "张三",
+  "phone": "138****1234",
+  "created_at": "2026-01-18T08:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "XHS_ORDER_001",
+      "status": "paid",
+      "status_text": "已付款待发货",
+      "amount": "89.00",
+      "items": [
+        {
+          "name": "小红书爆款化妆包",
+          "quantity": 1,
+          "price": "89.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "浙江省杭州市西湖区龙井路88号"
+      },
+      "shipment": null,
+      "refund": null,
+      "created_at": "2026-03-29T10:00:00+08:00",
+      "paid_at": "2026-03-29T10:05:00+08:00"
+    },
+    {
+      "order_id": "XHS_ORDER_002",
+      "status": "delivering",
+      "status_text": "配送中",
+      "amount": "159.00",
+      "items": [
+        {
+          "name": "网红餐厅同款餐具套装",
+          "quantity": 1,
+          "price": "159.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "浙江省杭州市西湖区龙井路88号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "小红书配送",
+        "tracking_no": "XH1234567890",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T10:00:00+08:00"},
+          {"node": "配送中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T14:00:00+08:00",
+      "paid_at": "2026-03-27T14:05:00+08:00"
+    },
+    {
+      "order_id": "XHS_ORDER_003",
+      "status": "refunding",
+      "status_text": "退款中",
+      "amount": "69.00",
+      "items": [
+        {
+          "name": "小红书推荐发夹套装",
+          "quantity": 1,
+          "price": "69.00",
+          "sku_id": ""
+        }
+      ],
+      "receiver": {
+        "name": "张三",
+        "phone": "138****1234",
+        "address": "浙江省杭州市西湖区龙井路88号"
+      },
+      "shipment": null,
+      "refund": {
+        "status": "refunding",
+        "amount": "69.00",
+        "reason": "尺码不合适",
+        "apply_time": "2026-03-29T12:00:00+08:00"
+      },
+      "created_at": "2026-03-26T09:00:00+08:00",
+      "paid_at": "2026-03-26T09:05:00+08:00"
+    }
+  ]
+}

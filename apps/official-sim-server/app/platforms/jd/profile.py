@@ -1,5 +1,10 @@
 from typing import Dict, Any, List, Optional
 from enum import Enum
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+from providers.utils.fixture_loader import FixtureLoader
 
 
 class JdOrderStatus(str, Enum):
@@ -80,39 +85,57 @@ SHIPMENT_SCENARIOS = {
 }
 
 
+STATUS_TO_SCENARIO = {
+    JdOrderStatus.CREATED: "order_created",
+    JdOrderStatus.PAID: "order_paid",
+    JdOrderStatus.WAIT_SELLER_DELIVERY: "order_paid",
+    JdOrderStatus.WAIT_BUYER_RECEIVE: "order_shipped",
+    JdOrderStatus.FINISHED: "order_finished",
+    JdOrderStatus.CANCELLED: "order_cancelled",
+    JdOrderStatus.REFUNDING: "order_paid",
+    JdOrderStatus.REFUNDED: "order_finished",
+}
+
+
 def validate_status_transition(current: JdOrderStatus, next_status: JdOrderStatus) -> bool:
     allowed = JD_ORDER_STATUS_TRANSITIONS.get(current, [])
     return next_status in allowed
 
 
 def get_default_order_payload(order_id: str, status: JdOrderStatus) -> Dict[str, Any]:
+    scenario_key = STATUS_TO_SCENARIO.get(status, "order_paid")
+    fixture = FixtureLoader.get_response("jd", scenario_key)
+    data = fixture.get("jingdong_order_search_responce", {})
     return {
         "order_id": order_id,
         "status": status.value,
-        "total_amount": "99.99",
-        "pay_amount": "99.99",
-        "freight": "0.00",
+        "total_amount": str(data.get("orderTotalPrice", 0) / 100),
+        "pay_amount": str(data.get("orderPayment", 0) / 100),
+        "freight": str(data.get("freightPrice", 0) / 100),
         "receiver": {
-            "name": "王五",
-            "phone": "13700137000",
-            "address": "北京市朝阳区",
+            "name": data.get("receiverName", "王五"),
+            "phone": data.get("receiverPhone", "13700137000"),
+            "address": f"{data.get('province', '')}{data.get('city', '')}{data.get('county', '')}{data.get('addressDetail', '')}",
         },
-        "vender_id": "JD_VENDER_001",
+        "vender_id": data.get("popVenderId", "JD_VENDER_001"),
         "order_type": "B2C",
-        "created_at": "2026-03-01T10:00:00+08:00",
-        "updated_at": "2026-03-29T12:00:00+08:00",
+        "created_at": data.get("orderStartTime", "2026-03-01T10:00:00+08:00"),
+        "updated_at": data.get("orderStatusTime", "2026-03-29T12:00:00+08:00"),
+        "_raw_fixture": fixture,
     }
 
 
 def get_default_shipment_payload(order_id: str, shipment_id: str, status: JdShipmentStatus) -> Dict[str, Any]:
+    fixture = FixtureLoader.get_response("jd", "order_shipped")
+    data = fixture.get("jingdong_order_search_responce", {})
     return {
         "order_id": order_id,
         "shipment_id": shipment_id,
         "status": status.value,
-        "logistics_company": "京东物流",
-        "tracking_no": "JD1234567890",
-        "shipped_at": "2026-03-15T14:00:00+08:00",
-        "delivered_at": None,
+        "logistics_company": data.get("deliveryCarrierName", "京东物流"),
+        "tracking_no": data.get("deliveryBillNo", "JD1234567890"),
+        "shipped_at": data.get("orderStatusTime", "2026-03-15T14:00:00+08:00"),
+        "delivered_at": data.get("deliveryConfirmTime"),
         "nodes": [
             {
                 "node": "已发货",
@@ -134,14 +157,55 @@ def get_default_shipment_payload(order_id: str, shipment_id: str, status: JdShip
 
 
 def get_default_refund_payload(order_id: str, refund_id: str, status: JdRefundStatus) -> Dict[str, Any]:
+    fixture = FixtureLoader.get_response("jd", "refund_applied")
+    result = fixture.get("jingdong_refund_apply_query_response", {}).get("result", {})
+    refund = result.get("afsServiceStatus", {})
+    business_steps = result.get("businessStepList", [])
     return {
         "order_id": order_id,
         "refund_id": refund_id,
         "status": status.value,
-        "refund_amount": "50.00",
-        "reason": "七天无理由退货",
-        "apply_time": "2026-03-20T10:00:00+08:00",
-        "update_time": "2026-03-29T12:00:00+08:00",
+        "apply_id": result.get("applyId"),
+        "customer_pin": result.get("customerPin"),
+        "customer_name": result.get("customerName"),
+        "sku_id": result.get("skuId"),
+        "sku_name": result.get("skuName"),
+        "sku_num": result.get("skuNum"),
+        "refund_type": result.get("refundType"),
+        "refund_type_name": result.get("refundTypeName"),
+        "refund_amount": str(result.get("refundAmount", 0) / 100),
+        "question_desc": result.get("questionDesc"),
+        "question_pics": result.get("questionPic", []),
+        "return_ware_type": result.get("returnwareType"),
+        "return_ware_type_name": result.get("returnwareTypeName"),
+        "pick_ware_type": result.get("pickwareType"),
+        "pick_ware_type_name": result.get("pickwareTypeName"),
+        "province_name": result.get("provinceName"),
+        "city_name": result.get("cityName"),
+        "county_name": result.get("countyName"),
+        "town_name": result.get("townName"),
+        "address_detail": result.get("addressDetail"),
+        "receive_name": result.get("receiveName"),
+        "receive_mobile": result.get("receiveMobile"),
+        "operator_pin": result.get("operatorPin"),
+        "operator_name": result.get("operatorName"),
+        "afs_service_step": refund.get("afsServiceStep"),
+        "afs_service_step_name": refund.get("afsServiceStepName"),
+        "express_company": refund.get("expressCompany"),
+        "express_no": refund.get("expressNo"),
+        "business_steps": [
+            {
+                "step": s.get("step"),
+                "step_name": s.get("stepName"),
+                "status": s.get("status"),
+                "status_name": s.get("statusName"),
+                "time": s.get("time"),
+            }
+            for s in business_steps
+        ],
+        "apply_time": result.get("afsApplyTime"),
+        "update_time": result.get("updateTime"),
+        "_raw_fixture": fixture,
     }
 
 
@@ -157,14 +221,13 @@ def get_default_push_payload(event_type: str, order_id: str) -> Dict[str, Any]:
         "shipment_status_changed": {
             "event_type": "shipment_status_changed",
             "order_id": order_id,
-            "old_status": "shipped",
-            "new_status": "in_transit",
+            "logistics_company": "京东物流",
+            "tracking_no": "JD1234567890",
             "timestamp": "2026-03-29T12:00:00+08:00",
         },
         "refund_applied": {
             "event_type": "refund_applied",
             "order_id": order_id,
-            "refund_id": "REFUND_JD_001",
             "refund_amount": "50.00",
             "reason": "七天无理由退货",
             "timestamp": "2026-03-29T12:00:00+08:00",

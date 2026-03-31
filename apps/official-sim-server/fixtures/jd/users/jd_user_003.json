@@ -1,0 +1,104 @@
+{
+  "user_id": "jd_user_003",
+  "platform": "jd",
+  "name": "王五",
+  "phone": "137****9012",
+  "created_at": "2026-02-10T14:00:00+08:00",
+  "orders": [
+    {
+      "order_id": "JD_ORDER_007",
+      "status": "paid",
+      "status_text": "已付款待发货",
+      "amount": "2599.00",
+      "items": [
+        {
+          "name": "戴森吹风机 V10",
+          "quantity": 1,
+          "price": "2599.00",
+          "sku_id": "SKU444555666"
+        }
+      ],
+      "receiver": {
+        "name": "王五",
+        "phone": "137****9012",
+        "address": "上海市浦东新区世纪大道100号"
+      },
+      "shipment": {
+        "status": "pending",
+        "company": null,
+        "tracking_no": null,
+        "nodes": []
+      },
+      "refund": null,
+      "created_at": "2026-03-29T09:00:00+08:00",
+      "paid_at": "2026-03-29T09:05:00+08:00"
+    },
+    {
+      "order_id": "JD_ORDER_008",
+      "status": "shipped",
+      "status_text": "已发货运输中",
+      "amount": "159.00",
+      "items": [
+        {
+          "name": "小米手环 8",
+          "quantity": 1,
+          "price": "159.00",
+          "sku_id": "SKU666777888"
+        }
+      ],
+      "receiver": {
+        "name": "王五",
+        "phone": "137****9012",
+        "address": "上海市浦东新区世纪大道100号"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "京东物流",
+        "tracking_no": "JD1122334455",
+        "nodes": [
+          {"node": "已发货", "time": "2026-03-28T15:00:00+08:00"},
+          {"node": "到达上海分拨中心", "time": "2026-03-29T02:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-29T08:00:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-27T11:00:00+08:00",
+      "paid_at": "2026-03-27T11:10:00+08:00"
+    },
+    {
+      "order_id": "JD_ORDER_009",
+      "status": "cancelled",
+      "status_text": "已取消",
+      "amount": "899.00",
+      "items": [
+        {
+          "name": "飞利浦电动牙刷",
+          "quantity": 1,
+          "price": "899.00",
+          "sku_id": "SKU888999000"
+        }
+      ],
+      "receiver": {
+        "name": "王五",
+        "phone": "137****9012",
+        "address": "上海市浦东新区世纪大道100号"
+      },
+      "shipment": {
+        "status": "cancelled",
+        "company": null,
+        "tracking_no": null,
+        "nodes": []
+      },
+      "refund": {
+        "status": "refunded",
+        "amount": "899.00",
+        "reason": "不想要了",
+        "apply_time": "2026-03-26T10:00:00+08:00",
+        "refund_time": "2026-03-26T14:00:00+08:00"
+      },
+      "created_at": "2026-03-25T08:00:00+08:00",
+      "paid_at": "2026-03-25T08:05:00+08:00",
+      "cancelled_at": "2026-03-26T10:00:00+08:00"
+    }
+  ]
+}

@@ -29,7 +29,7 @@ def test_xhs_order_payload():
     assert payload["order_id"] == "XHS_ORDER_001"
     assert payload["status"] == "paid"
     assert "receiver" in payload
-    assert payload["receiver"]["name"] == "赵六"
+    assert payload["receiver"]["name"] == "张三"
     assert "customs" in payload
 
 

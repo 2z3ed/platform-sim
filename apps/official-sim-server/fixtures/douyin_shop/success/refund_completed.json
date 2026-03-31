@@ -1,0 +1,66 @@
+{
+  "platform": "douyin_shop",
+  "fixture_type": "refund",
+  "scenario_key": "refund_completed",
+  "description": "退款完成状态 - 官方抖店 refund_detail 完整结构",
+  "official_api": "/refund/detail",
+  "official_doc": "https://op.jinritemai.com/docs/api-docs/172/1738",
+  "initial_state": {
+    "order_status": "160"
+  },
+  "response": {
+    "refund": {
+      "refund_id": "6912558345648290215",
+      "order_id": "6912558345648290211",
+      "out_order_id": "DS20260329001",
+      "shop_id": 12345678,
+      "shop_name": "抖店仿真旗舰店",
+      "refund_status": 160,
+      "refund_status_desc": "退款完成",
+      "refund_amount": 19900,
+      "refund_reason": "商品质量问题",
+      "refund_type": 1,
+      "refund_type_desc": "仅退款",
+      "create_time": 1743350400,
+      "update_time": 1743436800,
+      "finish_time": 1743436800,
+      "order_amount": {
+        "total_amount": 19900,
+        "pay_amount": 19900,
+        "freight_amount": 0,
+        "discount_amount": 0,
+        "tax_amount": 0,
+        "actually_pay_amount": 19900
+      },
+      "product_items": [
+        {
+          "product_id": "3520562294461467753",
+          "out_product_id": "",
+          "sku_id": "0",
+          "out_sku_id": "",
+          "product_name": "抖店仿真商品A",
+          "sku_name": "",
+          "product_count": 2,
+          "product_price": 9900,
+          "actually_pay_amount": 19900,
+          "pic_url": "https://p9.pstatp.com/shop-item-entity/xxx.jpg"
+        }
+      ],
+      "buyer_message": "商品有瑕疵",
+      "seller_memo": "同意退款",
+      "evidence": []
+    }
+  },
+  "expected_artifacts": [
+    {
+      "artifact_type": "refund_detail",
+      "step": 0,
+      "description": "退款完成详情"
+    }
+  ],
+  "metadata": {
+    "version": "3.0",
+    "official_doc": "https://op.jinritemai.com/docs/api-docs/172/1738",
+    "created_at": "2026-03-30"
+  }
+}
