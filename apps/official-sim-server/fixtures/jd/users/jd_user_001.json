@@ -1,102 +1,80 @@
 {
   "user_id": "jd_user_001",
   "platform": "jd",
-  "name": "张三",
+  "name": "李明",
   "phone": "138****1234",
-  "created_at": "2026-01-15T08:00:00+08:00",
+  "created_at": "2025-06-15T08:00:00+08:00",
   "orders": [
     {
-      "order_id": "JD_ORDER_001",
-      "status": "paid",
-      "status_text": "已付款待发货",
+      "order_id": "304857291638",
+      "status": "shipped",
+      "status_text": "已发货运输中",
       "amount": "9999.00",
       "items": [
         {
-          "name": "iPhone 15 Pro Max 256GB 钛金色",
+          "name": "Apple iPhone 15 Pro Max 256GB 原色钛金属",
           "quantity": 1,
           "price": "9999.00",
-          "sku_id": "SKU123456789"
+          "sku_id": "100072863128"
         }
       ],
       "receiver": {
-        "name": "张三",
+        "name": "李明",
         "phone": "138****1234",
-        "address": "浙江省杭州市余杭区文一西路999号"
-      },
-      "shipment": {
-        "status": "pending",
-        "company": null,
-        "tracking_no": null,
-        "nodes": []
-      },
-      "refund": null,
-      "created_at": "2026-03-28T10:00:00+08:00",
-      "paid_at": "2026-03-28T10:05:00+08:00"
-    },
-    {
-      "order_id": "JD_ORDER_002",
-      "status": "shipped",
-      "status_text": "已发货运输中",
-      "amount": "299.00",
-      "items": [
-        {
-          "name": "小米充电宝 20000mAh",
-          "quantity": 2,
-          "price": "149.50",
-          "sku_id": "SKU987654321"
-        }
-      ],
-      "receiver": {
-        "name": "张三",
-        "phone": "138****1234",
-        "address": "浙江省杭州市余杭区文一西路999号"
+        "address": "浙江省杭州市余杭区文一西路969号阿里巴巴西溪园区A座1201"
       },
       "shipment": {
         "status": "in_transit",
         "company": "京东物流",
-        "tracking_no": "JD1234567890",
+        "tracking_no": "JDVA2847561039",
         "nodes": [
-          {"node": "已发货", "time": "2026-03-27T10:00:00+08:00"},
-          {"node": "运输中", "time": "2026-03-28T08:00:00+08:00"}
+          {"node": "商品已出库", "time": "2026-03-29T09:30:00+08:00"},
+          {"node": "包裹已交由京东快递", "time": "2026-03-29T14:20:00+08:00"},
+          {"node": "快件已从【杭州分拣中心】发出", "time": "2026-03-29T18:45:00+08:00"},
+          {"node": "快件已到达【杭州余杭营业部】", "time": "2026-03-30T06:12:00+08:00"},
+          {"node": "快递员【王师傅 13857112233】正在派送", "time": "2026-03-30T08:30:00+08:00"}
         ]
       },
       "refund": null,
-      "created_at": "2026-03-25T14:00:00+08:00",
-      "paid_at": "2026-03-25T14:10:00+08:00"
+      "created_at": "2026-03-28T20:15:00+08:00",
+      "paid_at": "2026-03-28T20:15:32+08:00"
     },
     {
-      "order_id": "JD_ORDER_003",
+      "order_id": "304618372956",
       "status": "refunding",
       "status_text": "退款中",
-      "amount": "599.00",
+      "amount": "1899.00",
       "items": [
         {
-          "name": "蓝牙耳机 AirPods Pro 2",
+          "name": "Apple AirPods Pro 2代 USB-C接口",
           "quantity": 1,
-          "price": "599.00",
-          "sku_id": "SKU456789123"
+          "price": "1899.00",
+          "sku_id": "100062935436"
         }
       ],
       "receiver": {
-        "name": "张三",
+        "name": "李明",
         "phone": "138****1234",
-        "address": "浙江省杭州市余杭区文一西路999号"
+        "address": "浙江省杭州市余杭区文一西路969号阿里巴巴西溪园区A座1201"
       },
       "shipment": {
-        "status": "pending",
-        "company": null,
-        "tracking_no": null,
-        "nodes": []
+        "status": "returned",
+        "company": "京东物流",
+        "tracking_no": "JDVA2841039572",
+        "nodes": [
+          {"node": "退货商品已签收", "time": "2026-03-29T16:00:00+08:00"}
+        ]
       },
       "refund": {
         "status": "refunding",
-        "amount": "599.00",
-        "reason": "商品损坏",
-        "apply_time": "2026-03-29T12:00:00+08:00",
-        "audit_time": "2026-03-29T14:00:00+08:00"
+        "status_text": "退款审核中",
+        "amount": "1899.00",
+        "reason": "耳机左耳有异响，申请退货退款",
+        "apply_time": "2026-03-27T10:30:00+08:00",
+        "audit_time": "2026-03-28T09:15:00+08:00"
       },
-      "created_at": "2026-03-26T09:00:00+08:00",
-      "paid_at": "2026-03-26T09:05:00+08:00"
+      "created_at": "2026-03-20T16:45:00+08:00",
+      "paid_at": "2026-03-20T16:45:08+08:00"
     }
   ]
 }

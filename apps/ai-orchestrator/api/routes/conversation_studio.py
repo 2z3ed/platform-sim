@@ -51,6 +51,18 @@ class NextTurnResponse(BaseModel):
     error_response: Optional[Dict[str, Any]] = None
 
 
+class AgentMessageRequest(BaseModel):
+    agent_message: str
+
+
+class AgentMessageResponse(BaseModel):
+    run_id: str
+    turn_no: int
+    user_message: str
+    intent: str
+    emotion: str
+
+
 class RunSummaryResponse(BaseModel):
     run_id: str
     platform: str
@@ -105,6 +117,7 @@ async def create_run(request: CreateRunRequest):
     )
 
     _contexts[context.run_id] = context
+    _studio_instances[context.run_id] = studio
 
     return CreateRunResponse(
         run_id=context.run_id,
@@ -120,10 +133,10 @@ async def next_turn(run_id: str, request: NextTurnRequest = None):
         raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
 
     context = _contexts[run_id]
-    studio = _studio_instances.get(context.platform)
+    studio = _studio_instances.get(run_id)
 
     if not studio:
-        raise HTTPException(status_code=500, detail=f"Studio for platform {context.platform} not found")
+        raise HTTPException(status_code=500, detail=f"Studio for run {run_id} not found")
 
     override_intent = request.override_intent if request else None
     override_emotion = request.override_emotion if request else None
@@ -168,7 +181,7 @@ async def get_debug(run_id: str):
         raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
 
     context = _contexts[run_id]
-    studio = _studio_instances.get(context.platform)
+    studio = _studio_instances.get(run_id)
 
     reply_mode = "unknown"
     if studio:
@@ -208,3 +221,25 @@ async def get_messages(run_id: str):
         ],
         "total": len(context.conversation_history),
     }
+
+
+@router.post("/runs/{run_id}/agent-message", response_model=AgentMessageResponse)
+async def agent_message_turn(run_id: str, request: AgentMessageRequest):
+    if run_id not in _contexts:
+        raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
+
+    context = _contexts[run_id]
+    studio = _studio_instances.get(run_id)
+
+    if not studio:
+        raise HTTPException(status_code=500, detail=f"Studio for run {run_id} not found")
+
+    turn_output = studio.agent_message_turn(context, request.agent_message)
+
+    return AgentMessageResponse(
+        run_id=run_id,
+        turn_no=turn_output.turn_no,
+        user_message=turn_output.user_message,
+        intent=turn_output.intent,
+        emotion=turn_output.emotion,
+    )

@@ -116,19 +116,6 @@ async def get_order(
     platform: str = Query(...),
     order_id: str = None
 ):
-    order_data = FixtureLoader.get_user_order(platform, order_id, order_id)
-    if order_data:
-        user_data = FixtureLoader.get_user_by_order(platform, order_id)
-        return OrderQueryResponse(
-            data={
-                "order": order_data,
-                "user": {
-                    "user_id": user_data.get("user_id") if user_data else None,
-                    "name": user_data.get("name") if user_data else None,
-                }
-            }
-        )
-
     for uid in FixtureLoader.list_users(platform):
         try:
             order_data = FixtureLoader.get_user_order(platform, uid, order_id)

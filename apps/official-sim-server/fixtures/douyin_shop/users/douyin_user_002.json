@@ -1,99 +1,81 @@
 {
   "user_id": "douyin_user_002",
   "platform": "douyin_shop",
-  "name": "钱八",
-  "phone": "139****5678",
-  "created_at": "2026-01-25T10:00:00+08:00",
+  "name": "赵雪",
+  "phone": "178****2345",
+  "created_at": "2025-07-12T10:00:00+08:00",
   "orders": [
     {
-      "order_id": "DS_ORDER_004",
-      "status": "700",
-      "status_text": "已完成",
-      "amount": "899.00",
-      "items": [
-        {
-          "name": "品牌电动牙刷",
-          "quantity": 1,
-          "price": "899.00",
-          "product_id": "3520562294461467756"
-        }
-      ],
-      "receiver": {
-        "name": "钱八",
-        "phone": "139****5678",
-        "address": "江苏省南京市鼓楼区中山路88号"
-      },
-      "shipment": {
-        "status": "delivered",
-        "company": "抖音电商物流",
-        "tracking_no": "DY9876543210",
-        "nodes": [
-          {"node": "已发货", "time": "2026-03-20T10:00:00+08:00"},
-          {"node": "已签收", "time": "2026-03-22T14:00:00+08:00"}
-        ]
-      },
-      "refund": null,
-      "created_at": "2026-03-18T11:00:00+08:00",
-      "paid_at": "2026-03-18T11:05:00+08:00"
-    },
-    {
-      "order_id": "DS_ORDER_005",
+      "order_id": "6847391827463910",
       "status": "100",
       "status_text": "已发货",
-      "amount": "39.90",
+      "amount": "459.00",
       "items": [
         {
-          "name": "网红零食大礼包",
+          "name": "完美日记 动物眼影盘 十二色",
+          "quantity": 2,
+          "price": "159.00",
+          "product_id": "3520562294461467756"
+        },
+        {
+          "name": "完美日记 丝绒唇釉 6支装",
           "quantity": 1,
-          "price": "39.90",
+          "price": "141.00",
           "product_id": "3520562294461467757"
         }
       ],
       "receiver": {
-        "name": "钱八",
-        "phone": "139****5678",
-        "address": "江苏省南京市鼓楼区中山路88号"
+        "name": "赵雪",
+        "phone": "178****2345",
+        "address": "湖北省武汉市洪山区光谷大道77号光谷金融港B3栋1502"
       },
       "shipment": {
         "status": "in_transit",
         "company": "抖音电商物流",
-        "tracking_no": "DY5555666677",
+        "tracking_no": "DY8372619405",
         "nodes": [
-          {"node": "已发货", "time": "2026-03-28T15:00:00+08:00"},
-          {"node": "运输中", "time": "2026-03-29T08:00:00+08:00"}
+          {"node": "已发货", "time": "2026-03-29T11:00:00+08:00"},
+          {"node": "运输中", "time": "2026-03-29T18:00:00+08:00"},
+          {"node": "快件已到达【武汉转运中心】", "time": "2026-03-30T04:30:00+08:00"}
         ]
       },
       "refund": null,
-      "created_at": "2026-03-27T11:00:00+08:00",
-      "paid_at": "2026-03-27T11:05:00+08:00"
+      "created_at": "2026-03-28T15:20:00+08:00",
+      "paid_at": "2026-03-28T15:20:12+08:00"
     },
     {
-      "order_id": "DS_ORDER_006",
+      "order_id": "6846291837465029",
       "status": "300",
       "status_text": "退款中",
-      "amount": "199.00",
+      "amount": "299.00",
       "items": [
         {
-          "name": "直播特惠护肤品套装",
+          "name": "花西子 散粉 定妆蜜粉",
           "quantity": 1,
-          "price": "199.00",
+          "price": "149.00",
           "product_id": "3520562294461467758"
+        },
+        {
+          "name": "花西子 雕花口红 丝绒版",
+          "quantity": 1,
+          "price": "150.00",
+          "product_id": "3520562294461467759"
         }
       ],
       "receiver": {
-        "name": "钱八",
-        "phone": "139****5678",
-        "address": "江苏省南京市鼓楼区中山路88号"
+        "name": "赵雪",
+        "phone": "178****2345",
+        "address": "湖北省武汉市洪山区光谷大道77号光谷金融港B3栋1502"
       },
       "shipment": null,
       "refund": {
         "status": "refunding",
-        "amount": "199.00",
-        "reason": "效果不好",
-        "apply_time": "2026-03-29T16:00:00+08:00"
+        "amount": "299.00",
+        "reason": "直播间展示效果与实际色差太大",
+        "apply_time": "2026-03-27T20:00:00+08:00"
       },
-      "created_at": "2026-03-28T14:00:00+08:00",
-      "paid_at": "2026-03-28T14:05:00+08:00"
+      "created_at": "2026-03-24T19:30:00+08:00",
+      "paid_at": "2026-03-24T19:30:05+08:00"
     }
   ]
 }

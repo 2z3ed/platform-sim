@@ -1,100 +1,85 @@
 {
-  "user_id": "taobao_user_002",
+  "user_id": "tb_user_002",
   "platform": "taobao",
-  "name": "赵六",
-  "phone": "136****7890",
-  "created_at": "2026-01-20T10:00:00+08:00",
+  "name": "陈浩",
+  "phone": "187****3456",
+  "created_at": "2025-08-05T14:00:00+08:00",
   "orders": [
     {
-      "order_id": "TB_ORDER_004",
-      "status": "TRADE_BUYER_SIGNED",
-      "status_text": "已签收",
-      "amount": "899.00",
+      "order_id": "4729183746291847",
+      "status": "wait_ship",
+      "status_text": "已付款，等待发货",
+      "amount": "2899.00",
       "items": [
         {
-          "name": "阿迪达斯运动鞋",
+          "name": "Nintendo Switch OLED 白色 日版",
           "quantity": 1,
-          "price": "899.00",
+          "price": "2399.00",
+          "sku_id": "891234567890"
+        },
+        {
+          "name": "Switch OLED 专用钢化膜 2片装",
+          "quantity": 1,
+          "price": "29.00",
+          "sku_id": "891234567891"
+        },
+        {
+          "name": "Switch 收纳包 EVA硬壳",
+          "quantity": 1,
+          "price": "69.00",
+          "sku_id": "891234567892"
+        },
+        {
+          "name": "运费",
+          "quantity": 1,
+          "price": "0.00",
           "sku_id": ""
         }
       ],
       "receiver": {
-        "name": "赵六",
-        "phone": "136****7890",
-        "address": "广东省广州市天河区天河路123号"
+        "name": "陈浩",
+        "phone": "187****3456",
+        "address": "四川省成都市高新区天府大道中段1366号天府软件园C区5栋1102"
       },
       "shipment": {
-        "status": "delivered",
-        "company": "中通快递",
-        "tracking_no": "ZT9876543210",
-        "nodes": [
-          {"node": "已发货", "time": "2026-03-20T10:00:00+08:00"},
-          {"node": "运输中", "time": "2026-03-21T08:00:00+08:00"},
-          {"node": "派送中", "time": "2026-03-22T09:00:00+08:00"},
-          {"node": "已签收", "time": "2026-03-22T14:00:00+08:00"}
-        ]
+        "status": "pending",
+        "company": null,
+        "tracking_no": null,
+        "nodes": []
       },
       "refund": null,
-      "created_at": "2026-03-18T11:00:00+08:00",
-      "paid_at": "2026-03-18T11:05:00+08:00"
+      "created_at": "2026-03-30T10:00:00+08:00",
+      "paid_at": "2026-03-30T10:00:22+08:00"
     },
     {
-      "order_id": "TB_ORDER_005",
-      "status": "TRADE_FINISHED",
-      "status_text": "交易完成",
-      "amount": "45.00",
+      "order_id": "4728917364829105",
+      "status": "finished",
+      "status_text": "已完成",
+      "amount": "168.00",
       "items": [
         {
-          "name": "手机钢化膜",
+          "name": "三只松鼠 每日坚果 混合坚果仁 750g/30包",
           "quantity": 2,
-          "price": "22.50",
-          "sku_id": ""
+          "price": "84.00",
+          "sku_id": "567890123456"
         }
       ],
       "receiver": {
-        "name": "赵六",
-        "phone": "136****7890",
-        "address": "广东省广州市天河区天河路123号"
+        "name": "陈浩",
+        "phone": "187****3456",
+        "address": "四川省成都市高新区天府大道中段1366号天府软件园C区5栋1102"
       },
       "shipment": {
         "status": "delivered",
-        "company": "韵达快递",
-        "tracking_no": "YD5555666677",
+        "company": "圆通速递",
+        "tracking_no": "YT9283746510283",
         "nodes": [
-          {"node": "已签收", "time": "2026-03-15T16:00:00+08:00"}
+          {"node": "已签收", "time": "2026-03-27T14:30:00+08:00"}
         ]
       },
       "refund": null,
-      "created_at": "2026-03-14T09:00:00+08:00",
-      "paid_at": "2026-03-14T09:10:00+08:00"
-    },
-    {
-      "order_id": "TB_ORDER_006",
-      "status": "TRADE_REFUNDING",
-      "status_text": "退款中",
-      "amount": "1299.00",
-      "items": [
-        {
-          "name": "笔记本电脑支架",
-          "quantity": 1,
-          "price": "1299.00",
-          "sku_id": ""
-        }
-      ],
-      "receiver": {
-        "name": "赵六",
-        "phone": "136****7890",
-        "address": "广东省广州市天河区天河路123号"
-      },
-      "shipment": null,
-      "refund": {
-        "status": "refunding",
-        "amount": "1299.00",
-        "reason": "商品有瑕疵",
-        "apply_time": "2026-03-29T15:00:00+08:00"
-      },
-      "created_at": "2026-03-28T14:00:00+08:00",
-      "paid_at": "2026-03-28T14:05:00+08:00"
+      "created_at": "2026-03-24T09:15:00+08:00",
+      "paid_at": "2026-03-24T09:15:05+08:00"
     }
   ]
 }

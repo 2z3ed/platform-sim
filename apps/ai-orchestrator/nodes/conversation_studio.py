@@ -1,8 +1,10 @@
 from typing import Dict, Any, List, Optional, Literal
 from pydantic import BaseModel, Field
 from enum import Enum
+from datetime import datetime
 
 from nodes.conversation import ConversationContext, EmotionType, IntentType
+from nodes.conversation.context import Message
 from nodes.reply import UnifiedReplyAdapter, ReplySource
 from nodes.user_simulator import UserSimulator
 
@@ -40,6 +42,13 @@ class TurnOutput(BaseModel):
     escalation_reason: Optional[str] = None
     error_injected: bool = False
     error_response: Optional[Dict[str, Any]] = None
+
+
+class AgentMessageTurnOutput(BaseModel):
+    turn_no: int
+    user_message: str
+    intent: str
+    emotion: str
 
 
 class ConversationStudioGraph:
@@ -160,15 +169,14 @@ class ConversationStudioGraph:
         reply_text = reply_result.get("text", "")
         source = reply_result.get("source", "")
 
-        if source == "stub":
-            if "正在处理" in reply_text or "尽快为您" in reply_text or "已收到" in reply_text:
+        unhelpful_phrases = [
+            "正在处理", "尽快为您", "已收到", "请耐心等待", "请您耐心等待",
+            "无法", "抱歉", "不清楚", "重复", "之前已",
+            "请问有什么可以帮您", "有什么可以帮",
+        ]
+        for phrase in unhelpful_phrases:
+            if phrase in reply_text:
                 return False
-
-        if "无法" in reply_text or "抱歉" in reply_text or "不清楚" in reply_text:
-            return False
-
-        if "重复" in reply_text or "之前已" in reply_text:
-            return False
 
         return True
 
@@ -205,10 +213,47 @@ class ConversationStudioGraph:
         emotion = override_emotion or context.emotion.value
         intent = override_intent or context.intent.value if context.intent else None
 
+        conversation_history = [
+            {"role": m.role, "content": m.content, "intent": m.intent, "emotion": m.emotion}
+            for m in context.conversation_history
+        ]
+        turn_count = context.current_turn
+        same_intent_count = context.get_repeated_count(intent or context.intent.value if context.intent else "")
+        last_reply_resolved = context.consecutive_unsatisfied == 0
+
+        order_status = order_summary.get("status", "") if order_summary else ""
+        shipment_status = shipment.get("status", "") if shipment else ""
+        refund_status = refund.get("status", "") if refund else ""
+        product_name = ""
+        if order_summary and order_summary.get("items"):
+            items = order_summary["items"]
+            if isinstance(items, list) and len(items) > 0:
+                product_name = items[0] if isinstance(items[0], str) else items[0].get("name", "")
+        last_logistics_node = ""
+        if shipment and shipment.get("nodes"):
+            nodes = shipment["nodes"]
+            if isinstance(nodes, list) and len(nodes) > 0:
+                last_node = nodes[-1]
+                last_logistics_node = last_node.get("node", "") if isinstance(last_node, dict) else str(last_node)
+
         result = self.user_simulator.generate(
             platform=context.platform,
             user_id=context.user_id,
             conversation_id=context.conversation_id,
+            override_emotion=override_emotion,
+            override_intent=override_intent,
+            conversation_history=conversation_history,
+            turn_count=turn_count,
+            same_intent_count=same_intent_count,
+            last_reply_resolved=last_reply_resolved,
+            order_summary=order_summary,
+            shipment=shipment,
+            refund=refund,
+            order_status=order_status,
+            shipment_status=shipment_status,
+            refund_status=refund_status,
+            product_name=product_name,
+            last_logistics_node=last_logistics_node,
         )
 
         user_message = result.user_message
@@ -257,6 +302,94 @@ class ConversationStudioGraph:
         )
 
         return reply_result
+
+    def agent_message_turn(
+        self,
+        context: ConversationContext,
+        agent_message: str,
+    ) -> AgentMessageTurnOutput:
+        context.current_turn += 1
+
+        agent_msg = Message(
+            role="agent",
+            content=agent_message,
+            timestamp=datetime.now().isoformat(),
+        )
+        context.conversation_history.append(agent_msg)
+
+        conversation_history = [
+            {"role": m.role, "content": m.content, "intent": m.intent, "emotion": m.emotion}
+            for m in context.conversation_history
+        ]
+        turn_count = context.current_turn
+        same_intent_count = context.get_repeated_count(context.intent.value if context.intent else "")
+
+        if turn_count <= 1:
+            reply_satisfactory = False
+            last_reply_resolved = False
+        else:
+            reply_satisfactory = self._evaluate_reply_quality({"text": agent_message, "source": "agent"}, context.intent.value if context.intent else "")
+            last_reply_resolved = reply_satisfactory
+
+        order_summary = self.user_simulator.get_order_summary(context.order_id, context.platform)
+        shipment = self.user_simulator.get_shipment_summary(context.order_id, context.platform)
+        refund = self.user_simulator.get_refund_summary(context.order_id, context.platform)
+
+        order_status = order_summary.get("status", "") if order_summary else ""
+        shipment_status = shipment.get("status", "") if shipment else ""
+        refund_status = refund.get("status", "") if refund else ""
+        product_name = ""
+        if order_summary and order_summary.get("items"):
+            items = order_summary["items"]
+            if isinstance(items, list) and len(items) > 0:
+                product_name = items[0] if isinstance(items[0], str) else items[0].get("name", "")
+        last_logistics_node = ""
+        if shipment and shipment.get("nodes"):
+            nodes = shipment["nodes"]
+            if isinstance(nodes, list) and len(nodes) > 0:
+                last_node = nodes[-1]
+                last_logistics_node = last_node.get("node", "") if isinstance(last_node, dict) else str(last_node)
+
+        result = self.user_simulator.generate(
+            platform=context.platform,
+            user_id=context.user_id,
+            conversation_id=context.conversation_id,
+            agent_message=agent_message,
+            conversation_history=conversation_history,
+            turn_count=turn_count,
+            same_intent_count=same_intent_count,
+            last_reply_resolved=last_reply_resolved,
+            order_summary=order_summary,
+            shipment=shipment,
+            refund=refund,
+            order_status=order_status,
+            shipment_status=shipment_status,
+            refund_status=refund_status,
+            product_name=product_name,
+            last_logistics_node=last_logistics_node,
+        )
+
+        user_message = result.user_message
+        context.add_user_message(
+            content=user_message,
+            intent=result.decision.intent.value,
+            emotion=result.decision.emotion.value,
+        )
+
+        context.emotion = EmotionType(result.decision.emotion.value)
+        context.intent = IntentType(result.decision.intent.value)
+
+        if not last_reply_resolved:
+            context.consecutive_unsatisfied += 1
+        else:
+            context.consecutive_unsatisfied = 0
+
+        return AgentMessageTurnOutput(
+            turn_no=context.current_turn,
+            user_message=user_message,
+            intent=result.decision.intent.value,
+            emotion=result.decision.emotion.value,
+        )
 
     def run(
         self,

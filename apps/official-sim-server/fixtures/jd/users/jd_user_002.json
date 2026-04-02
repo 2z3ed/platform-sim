@@ -1,107 +1,84 @@
 {
   "user_id": "jd_user_002",
   "platform": "jd",
-  "name": "李四",
+  "name": "王芳",
   "phone": "139****5678",
-  "created_at": "2026-02-01T10:00:00+08:00",
+  "created_at": "2025-09-20T10:00:00+08:00",
   "orders": [
     {
-      "order_id": "JD_ORDER_004",
-      "status": "delivered",
-      "status_text": "已签收",
+      "order_id": "304912847563",
+      "status": "shipped",
+      "status_text": "已发货运输中",
+      "amount": "5499.00",
+      "items": [
+        {
+          "name": "Apple iPad Air 11英寸 M2芯片 256GB WLAN版 星光色",
+          "quantity": 1,
+          "price": "4799.00",
+          "sku_id": "100085432167"
+        },
+        {
+          "name": "Apple Pencil Pro 触控笔",
+          "quantity": 1,
+          "price": "700.00",
+          "sku_id": "100091234568"
+        }
+      ],
+      "receiver": {
+        "name": "王芳",
+        "phone": "139****5678",
+        "address": "上海市浦东新区张江高科技园区碧波路690号3号楼802"
+      },
+      "shipment": {
+        "status": "in_transit",
+        "company": "京东物流",
+        "tracking_no": "JDVA2851039472",
+        "nodes": [
+          {"node": "商品已出库", "time": "2026-03-30T08:00:00+08:00"},
+          {"node": "包裹已交由京东快递", "time": "2026-03-30T10:30:00+08:00"},
+          {"node": "快件已从【上海分拣中心】发出", "time": "2026-03-30T14:15:00+08:00"}
+        ]
+      },
+      "refund": null,
+      "created_at": "2026-03-29T16:20:00+08:00",
+      "paid_at": "2026-03-29T16:20:25+08:00"
+    },
+    {
+      "order_id": "304781234567",
+      "status": "refunding",
+      "status_text": "退款中",
       "amount": "1299.00",
       "items": [
         {
-          "name": "华为 Mate 60 Pro 512GB",
+          "name": "Sony WH-1000XM5 头戴式无线降噪耳机 黑色",
           "quantity": 1,
           "price": "1299.00",
-          "sku_id": "SKU111222333"
+          "sku_id": "100043218765"
         }
       ],
       "receiver": {
-        "name": "李四",
+        "name": "王芳",
         "phone": "139****5678",
-        "address": "北京市朝阳区建国路88号"
+        "address": "上海市浦东新区张江高科技园区碧波路690号3号楼802"
       },
       "shipment": {
-        "status": "delivered",
+        "status": "returned",
         "company": "京东物流",
-        "tracking_no": "JD9876543210",
+        "tracking_no": "JDVA2842156783",
         "nodes": [
-          {"node": "已发货", "time": "2026-03-20T10:00:00+08:00"},
-          {"node": "运输中", "time": "2026-03-21T08:00:00+08:00"},
-          {"node": "派送中", "time": "2026-03-22T09:00:00+08:00"},
-          {"node": "已签收", "time": "2026-03-22T14:00:00+08:00"}
+          {"node": "退货商品已签收", "time": "2026-03-28T15:20:00+08:00"}
         ]
-      },
-      "refund": null,
-      "created_at": "2026-03-18T11:00:00+08:00",
-      "paid_at": "2026-03-18T11:05:00+08:00"
-    },
-    {
-      "order_id": "JD_ORDER_005",
-      "status": "completed",
-      "status_text": "已完成",
-      "amount": "88.50",
-      "items": [
-        {
-          "name": "数据线 Type-C 快充线",
-          "quantity": 3,
-          "price": "29.50",
-          "sku_id": "SKU333222111"
-        }
-      ],
-      "receiver": {
-        "name": "李四",
-        "phone": "139****5678",
-        "address": "北京市朝阳区建国路88号"
-      },
-      "shipment": {
-        "status": "delivered",
-        "company": "京东物流",
-        "tracking_no": "JD5555666677",
-        "nodes": [
-          {"node": "已发货", "time": "2026-03-15T10:00:00+08:00"},
-          {"node": "已签收", "time": "2026-03-17T16:00:00+08:00"}
-        ]
-      },
-      "refund": null,
-      "created_at": "2026-03-14T09:00:00+08:00",
-      "paid_at": "2026-03-14T09:10:00+08:00"
-    },
-    {
-      "order_id": "JD_ORDER_006",
-      "status": "refunding",
-      "status_text": "退款中",
-      "amount": "399.00",
-      "items": [
-        {
-          "name": "无线蓝牙键盘",
-          "quantity": 1,
-          "price": "399.00",
-          "sku_id": "SKU777888999"
-        }
-      ],
-      "receiver": {
-        "name": "李四",
-        "phone": "139****5678",
-        "address": "北京市朝阳区建国路88号"
-      },
-      "shipment": {
-        "status": "pending",
-        "company": null,
-        "tracking_no": null,
-        "nodes": []
       },
       "refund": {
         "status": "refunding",
-        "amount": "399.00",
-        "reason": "拍错了，不想要了",
-        "apply_time": "2026-03-29T16:00:00+08:00",
-        "audit_time": null
+        "status_text": "退款审核中",
+        "amount": "1299.00",
+        "reason": "降噪效果不如预期，申请七天无理由退货",
+        "apply_time": "2026-03-26T14:00:00+08:00",
+        "audit_time": "2026-03-27T10:30:00+08:00"
       },
-      "created_at": "2026-03-28T15:00:00+08:00",
-      "paid_at": "2026-03-28T15:05:00+08:00"
+      "created_at": "2026-03-19T20:30:00+08:00",
+      "paid_at": "2026-03-19T20:30:12+08:00"
     }
   ]
 }
