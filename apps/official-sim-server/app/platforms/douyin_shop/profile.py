@@ -142,3 +142,97 @@ def get_default_push_payload(event_type: str, order_id: str) -> Dict[str, Any]:
         },
     }
     return push_templates.get(event_type, {"event_type": event_type, "order_id": order_id})
+
+
+def transform_order_facts(facts) -> Dict[str, Any]:
+    """Transform normalized order facts into Douyin Shop platform payload."""
+    status_map = {
+        "wait_pay": "10",
+        "paid": "20",
+        "shipped": "30",
+        "finished": "40",
+        "trade_closed": "50",
+    }
+    dy_status = status_map.get(facts.status, "10")
+
+    fixture = FixtureLoader.get_response("douyin_shop", "order_paid")
+    order = fixture.get("order", {})
+    order["order_id"] = facts.order_id
+    order["order_status"] = dy_status
+    order["order_amount"] = str(facts.total_amount)
+    order["pay_amount"] = str(facts.payment_amount)
+    order["pay_time"] = facts.pay_time or ""
+    order["create_time"] = facts.create_time
+
+    receiver = order.get("receiver", {})
+    receiver["name"] = facts.receiver.name
+    receiver["phone"] = facts.receiver.phone
+    receiver["address"] = facts.receiver.address
+    order["receiver"] = receiver
+
+    product_items = []
+    for item in facts.items:
+        product_items.append({
+            "product_id": f"DY_{item.name[:10]}",
+            "name": item.name,
+            "price": str(item.price),
+            "quantity": item.quantity,
+        })
+    if not product_items:
+        product_items = [{"product_id": "DY_ITEM", "name": "商品", "price": str(facts.total_amount), "quantity": 1}]
+    order["product_items"] = product_items
+
+    return {"order": order}
+
+
+def transform_shipment_facts(facts) -> Dict[str, Any]:
+    """Transform normalized shipment facts into Douyin Shop platform payload."""
+    status_map = {
+        "pending": "pending",
+        "in_transit": "shipped",
+        "delivered": "delivered",
+        "returned": "returned",
+        "cancelled": "cancelled",
+    }
+    dy_status = status_map.get(facts.status, "pending")
+
+    nodes = []
+    for n in facts.nodes:
+        nodes.append({
+            "node": n.node,
+            "time": n.time,
+            "description": n.description,
+        })
+
+    return {
+        "order_id": facts.order_id or "",
+        "shipment_id": facts.shipment_id,
+        "status": dy_status,
+        "logistics_company": facts.carrier or "",
+        "tracking_no": facts.tracking_no or "",
+        "shipped_at": facts.shipped_at or "",
+        "delivered_at": facts.delivered_at or "",
+        "nodes": nodes,
+    }
+
+
+def transform_aftersale_facts(facts) -> Dict[str, Any]:
+    """Transform normalized after-sale facts into Douyin Shop platform payload."""
+    status_map = {
+        "pending": "refunding",
+        "approved": "refund_success",
+        "refunded": "refund_success",
+        "rejected": "refund_rejected",
+    }
+    dy_status = status_map.get(facts.status, "refunding")
+
+    return {
+        "order_id": facts.order_id or "",
+        "after_sale_id": facts.after_sale_id,
+        "status": dy_status,
+        "refund_type": facts.type or "退款",
+        "refund_amount": str(facts.apply_amount if facts.apply_amount else 0),
+        "reason": facts.reason or "",
+        "apply_time": facts.created_at or "",
+        "update_time": facts.updated_at or "",
+    }

@@ -22,6 +22,14 @@ class TaobaoRefundStatus(str, Enum):
     REFUND_CLOSED = "refund_closed"
 
 
+class TaobaoShipmentStatus(str, Enum):
+    CREATED = "created"
+    SHIPPED = "shipped"
+    IN_TRANSIT = "in_transit"
+    DELIVERED = "delivered"
+    SIGNED = "signed"
+
+
 TAOBAO_ORDER_STATUS_TRANSITIONS: Dict[TaobaoOrderStatus, List[TaobaoOrderStatus]] = {
     TaobaoOrderStatus.WAIT_PAY: [TaobaoOrderStatus.WAIT_SHIP, TaobaoOrderStatus.TRADE_CLOSED],
     TaobaoOrderStatus.WAIT_SHIP: [TaobaoOrderStatus.SHIPPED, TaobaoOrderStatus.TRADE_CLOSED],
@@ -144,3 +152,101 @@ def get_default_push_payload(event_type: str, order_id: str) -> Dict[str, Any]:
         },
     }
     return push_templates.get(event_type, {"event_type": event_type, "order_id": order_id})
+
+
+def transform_order_facts(facts) -> Dict[str, Any]:
+    """Transform normalized order facts into Taobao platform payload."""
+    status_map = {
+        "wait_pay": "WAIT_BUYER_PAY",
+        "paid": "WAIT_SELLER_CONSIGN",
+        "shipped": "WAIT_BUYER_CONFIRM_GOODS",
+        "finished": "TRADE_FINISHED",
+        "trade_closed": "TRADE_CLOSED",
+    }
+    tb_status = status_map.get(facts.status, facts.status)
+
+    fixture = FixtureLoader.get_response("taobao", STATUS_TO_SCENARIO.get(TaobaoOrderStatus.WAIT_SHIP, "trade_wait_ship"))
+    trade = fixture.get("trade", {})
+    trade["tid"] = facts.order_id
+    trade["status"] = tb_status
+    trade["payment"] = str(facts.total_amount)
+    trade["total_fee"] = str(facts.total_amount)
+    trade["buyer_nick"] = facts.receiver.name or "tb_buyer"
+    trade["receiver_name"] = facts.receiver.name
+    trade["receiver_mobile"] = facts.receiver.phone
+    trade["receiver_state"] = ""
+    trade["receiver_city"] = ""
+    trade["receiver_district"] = ""
+    trade["receiver_address"] = facts.receiver.address
+    trade["created"] = facts.create_time
+    trade["pay_time"] = facts.pay_time or ""
+
+    orders_list = []
+    for item in facts.items:
+        orders_list.append({
+            "oid": f"{facts.order_id}_1",
+            "title": item.name,
+            "num": item.quantity,
+            "price": str(item.price),
+            "payment": str(item.price * item.quantity),
+        })
+    if not orders_list:
+        orders_list = [{"oid": f"{facts.order_id}_1", "title": "商品", "num": 1, "price": str(facts.total_amount), "payment": str(facts.total_amount)}]
+
+    return {
+        "trade": trade,
+        "orders": {"order": orders_list},
+    }
+
+
+def transform_shipment_facts(facts) -> Dict[str, Any]:
+    """Transform normalized shipment facts into Taobao platform payload."""
+    status_map = {
+        "pending": "pending",
+        "in_transit": "in_transit",
+        "delivered": "delivered",
+        "returned": "returned",
+        "cancelled": "cancelled",
+    }
+    tb_status = status_map.get(facts.status, "pending")
+
+    nodes = []
+    for n in facts.nodes:
+        nodes.append({
+            "node": n.node,
+            "time": n.time,
+            "description": n.description,
+        })
+
+    return {
+        "order_id": facts.order_id or "",
+        "status": tb_status,
+        "company": facts.carrier or "顺丰速运",
+        "tracking_no": facts.tracking_no or "",
+        "shipped_at": facts.shipped_at or "",
+        "delivered_at": facts.delivered_at or "",
+        "nodes": nodes,
+    }
+
+
+def transform_aftersale_facts(facts) -> Dict[str, Any]:
+    """Transform normalized after-sale facts into Taobao platform payload."""
+    status_map = {
+        "pending": "refunding",
+        "approved": "approved",
+        "refunded": "refunded",
+        "rejected": "rejected",
+    }
+    tb_status = status_map.get(facts.status, "refunding")
+
+    return {
+        "order_id": facts.order_id or "",
+        "refund_id": facts.after_sale_id,
+        "status": tb_status,
+        "status_text": "退款中" if facts.status == "pending" else "退款完成",
+        "refund_type": facts.type or "退款",
+        "refund_amount": str(facts.apply_amount if facts.apply_amount else 0),
+        "reason": facts.reason or "",
+        "apply_time": facts.created_at or "",
+        "audit_time": facts.updated_at or "",
+    }

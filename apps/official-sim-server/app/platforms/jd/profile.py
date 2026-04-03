@@ -234,3 +234,93 @@ def get_default_push_payload(event_type: str, order_id: str) -> Dict[str, Any]:
         },
     }
     return push_templates.get(event_type, {"event_type": event_type, "order_id": order_id})
+
+
+def transform_order_facts(facts) -> Dict[str, Any]:
+    """Transform normalized order facts into JD platform payload."""
+    status_map = {
+        "wait_pay": "WAIT_BUYER_PAY",
+        "paid": "WAIT_SELLER_STOCK",
+        "shipped": "WAIT_BUYER_CONFIRM",
+        "finished": "FINISHED",
+        "trade_closed": "CANCELLED",
+    }
+    jd_status = status_map.get(facts.status, "WAIT_SELLER_STOCK")
+
+    fixture = FixtureLoader.get_response("jd", "order_paid")
+    data = fixture.get("jingdong_order_search_responce", {})
+    return {
+        "order_id": facts.order_id,
+        "status": jd_status,
+        "total_amount": str(facts.total_amount),
+        "pay_amount": str(facts.payment_amount),
+        "freight": "0.00",
+        "receiver": {
+            "name": facts.receiver.name or "王五",
+            "phone": facts.receiver.phone or "13700137000",
+            "address": facts.receiver.address,
+        },
+        "vender_id": data.get("popVenderId", "JD_VENDER_001"),
+        "order_type": "B2C",
+            "created_at": facts.create_time or data.get("orderStartTime", "2026-03-01T10:00:00+08:00"),
+            "updated_at": facts.pay_time or data.get("orderStatusTime", "2026-03-29T12:00:00+08:00"),
+        }
+
+
+def transform_shipment_facts(facts) -> Dict[str, Any]:
+    """Transform normalized shipment facts into JD platform payload."""
+    status_map = {
+        "pending": "created",
+        "in_transit": "shipped",
+        "delivered": "delivered",
+        "returned": "delivered",
+        "cancelled": "cancelled",
+    }
+    jd_status = status_map.get(facts.status, "created")
+
+    fixture = FixtureLoader.get_response("jd", "order_shipped")
+    data = fixture.get("jingdong_order_search_responce", {})
+    
+    nodes = []
+    for n in facts.nodes:
+        nodes.append({
+            "node": n.node,
+            "time": n.time,
+            "description": n.description,
+        })
+    
+    return {
+        "order_id": facts.order_id or "",
+        "shipment_id": facts.shipment_id,
+        "status": jd_status,
+        "logistics_company": facts.carrier or data.get("deliveryCarrierName", "京东物流"),
+        "tracking_no": facts.tracking_no or data.get("deliveryBillNo", ""),
+        "shipped_at": facts.shipped_at or data.get("orderStatusTime", ""),
+        "delivered_at": facts.delivered_at or data.get("deliveryConfirmTime", ""),
+        "nodes": nodes,
+    }
+
+
+def transform_aftersale_facts(facts) -> Dict[str, Any]:
+    """Transform normalized after-sale facts into JD platform payload."""
+    status_map = {
+        "pending": "refunding",
+        "approved": "approved",
+        "refunded": "refunded",
+        "rejected": "rejected",
+    }
+    jd_status = status_map.get(facts.status, "refunding")
+
+    fixture = FixtureLoader.get_response("jd", "refund_applied")
+    data = fixture.get("jingdong_refund_apply_query_response", {}).get("result", {})
+    
+    return {
+        "order_id": facts.order_id or "",
+        "refund_id": facts.after_sale_id,
+        "status": jd_status,
+        "refund_type": facts.type or "退款",
+        "refund_amount": str(facts.apply_amount if facts.apply_amount else 0),
+        "reason": facts.reason or data.get("questionDesc", ""),
+        "apply_time": facts.created_at or data.get("afsApplyTime", ""),
+        "update_time": facts.updated_at or data.get("updateTime", ""),
+    }
