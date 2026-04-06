@@ -216,11 +216,18 @@ async def create_studio_run(
     repo = RunRepository(db)
     run_code = f"studio_{uuid.uuid4().hex[:8]}"
 
+    scene_state = request.scene_state
+    if not scene_state:
+        if request.conversation_id == "2":
+            scene_state = "pending_ship"
+        else:
+            scene_state = "default"
+
     metadata = dict(request.metadata or {})
     metadata["scenario_name"] = request.scenario_name
     metadata["conversation_id"] = request.conversation_id
     metadata["max_turns"] = request.max_turns
-    metadata["scene_state"] = request.scene_state
+    metadata["scene_state"] = scene_state
 
     run = repo.create(
         platform=request.platform,
