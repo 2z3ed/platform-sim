@@ -7,13 +7,18 @@ Handles:
 - Event query
 - Error injection
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
+import uuid
+
+from sqlalchemy.orm import Session
+from app.core.database import get_db
 
 from app.domain.state_machine import state_machine, TransitionError
 from app.domain.error_injector import error_injector
 from app.domain.event_log import event_log
+from app.domain.push_dispatcher import PushDispatcher
 from app.domain.push_delivery import push_delivery_manager
 from app.core.config import settings
 from app.platforms.taobao.profile import (
@@ -219,6 +224,7 @@ async def advance_state(
     resource_type: str,
     resource_id: str,
     request: AdvanceRequest,
+    db: Session = Depends(get_db),
 ):
     if not request.new_status:
         raise HTTPException(status_code=400, detail="new_status is required. Provide the target status explicitly.")
@@ -284,30 +290,48 @@ async def advance_state(
         payload=payload,
     )
 
-    # Create push delivery records for configured webhook URLs
+    # Create push delivery record in DB
+    dispatcher = PushDispatcher(db)
+    push_payload = {
+        "event_id": event["event_id"],
+        "event_type": event["event_type"],
+        "occurred_at": event["occurred_at"],
+        "platform": platform,
+        "resource_type": resource_type,
+        "resource_id": resource_id,
+        "before_status": result["before_status"],
+        "after_status": result["after_status"],
+        "payload": payload,
+    }
+
     webhook_urls = settings.get_webhook_urls()
     push_deliveries = []
-    for url in webhook_urls:
-        push_payload = {
-            "event_id": event["event_id"],
-            "event_type": event["event_type"],
-            "occurred_at": event["occurred_at"],
-            "payload": payload,
-        }
-        delivery = push_delivery_manager.create(
-            event_id=event["event_id"],
+
+    if webhook_urls:
+        for url in webhook_urls:
+            push_event = dispatcher.create_push(
+                run_id=uuid.uuid4(),
+                step_no=0,
+                platform=platform,
+                event_type=event_type,
+                body=push_payload,
+            )
+            try:
+                dispatcher.attempt_delivery(uuid.UUID(str(push_event.id)), url)
+            except Exception:
+                pass
+            push_deliveries.append(str(push_event.id))
+    else:
+        # No webhook URL configured — still create a record so it's not silent
+        push_payload["delivery_note"] = "no webhook url configured"
+        push_event = dispatcher.create_push(
+            run_id=uuid.uuid4(),
+            step_no=0,
             platform=platform,
-            resource_type=resource_type,
-            resource_id=resource_id,
-            target_url=url,
-            payload=push_payload,
+            event_type=event_type,
+            body=push_payload,
         )
-        # Attempt delivery immediately
-        try:
-            push_delivery_manager.attempt_delivery(delivery.push_id)
-        except Exception:
-            pass  # Push failure doesn't break the event
-        push_deliveries.append(delivery.push_id)
+        push_deliveries.append(str(push_event.id))
 
     return AdvanceResponse(
         success=True,

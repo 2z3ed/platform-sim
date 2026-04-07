@@ -36,6 +36,36 @@ class PushDispatcher:
         self.db.refresh(push_event)
         return push_event
 
+    def attempt_delivery(self, push_id: uuid.UUID, target_url: str) -> PushEvent:
+        """Attempt to deliver push payload to target URL via HTTP POST."""
+        import httpx
+        push = self.db.query(PushEvent).filter(PushEvent.id == push_id).first()
+        if not push:
+            raise ValueError(f"Push event {push_id} not found")
+
+        push.retry_count += 1
+        push.sent_at = datetime.now(timezone.utc)
+
+        try:
+            resp = httpx.post(
+                target_url,
+                json=push.body_json,
+                headers={"Content-Type": "application/json"},
+                timeout=10,
+            )
+            if 200 <= resp.status_code < 300:
+                push.status = PushEventStatus.SENT
+            else:
+                push.status = PushEventStatus.FAILED
+                push.body_json["delivery_error"] = f"HTTP {resp.status_code}: {resp.text[:200]}"
+        except Exception as e:
+            push.status = PushEventStatus.FAILED
+            push.body_json["delivery_error"] = str(e)[:200]
+
+        self.db.commit()
+        self.db.refresh(push)
+        return push
+
     def mark_sent(self, push_id: uuid.UUID) -> Optional[PushEvent]:
         push = self.db.query(PushEvent).filter(PushEvent.id == push_id).first()
         if push:

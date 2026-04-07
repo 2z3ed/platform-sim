@@ -2,6 +2,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
 from app.api.router import api_router
+from app.core.database import engine, Base
+from app.models.models import SimulationRun, SimulationEvent, StateSnapshot, PushEvent, Artifact, EvaluationReport
+
+# Ensure all model tables exist on startup
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Official Sim Server",
