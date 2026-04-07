@@ -7,8 +7,8 @@
   "orders": [
     {
       "order_id": "304857291638",
-      "status": "shipped",
-      "status_text": "已发货运输中",
+      "status": "paid",
+      "status_text": "已付款待发货",
       "amount": "9999.00",
       "items": [
         {
@@ -23,21 +23,30 @@
         "phone": "138****1234",
         "address": "浙江省杭州市余杭区文一西路969号阿里巴巴西溪园区A座1201"
       },
-      "shipment": {
-        "status": "in_transit",
-        "company": "京东物流",
-        "tracking_no": "JDVA2847561039",
-        "nodes": [
-          {"node": "商品已出库", "time": "2026-03-29T09:30:00+08:00"},
-          {"node": "包裹已交由京东快递", "time": "2026-03-29T14:20:00+08:00"},
-          {"node": "快件已从【杭州分拣中心】发出", "time": "2026-03-29T18:45:00+08:00"},
-          {"node": "快件已到达【杭州余杭营业部】", "time": "2026-03-30T06:12:00+08:00"},
-          {"node": "快递员【王师傅 13857112233】正在派送", "time": "2026-03-30T08:30:00+08:00"}
-        ]
-      },
+      "shipment": null,
       "refund": null,
       "created_at": "2026-03-28T20:15:00+08:00",
-      "paid_at": "2026-03-28T20:15:32+08:00"
+      "paid_at": "2026-03-28T20:15:32+08:00",
+      "inventory": [
+        {
+          "sku_id": "JD_SKU_001",
+          "product_id": "100012345678",
+          "product_name": "京东仿真商品A",
+          "available_qty": 150,
+          "on_hand_qty": 150,
+          "warehouse": "WH",
+          "updated_at": "2026-03-29T10:00:00+08:00"
+        },
+        {
+          "sku_id": "JD_SKU_002",
+          "product_id": "100012345679",
+          "product_name": "京东仿真商品B",
+          "available_qty": 0,
+          "on_hand_qty": 0,
+          "warehouse": "WH",
+          "updated_at": "2026-03-29T10:00:00+08:00"
+        }
+      ]
     },
     {
       "order_id": "304618372956",
@@ -62,7 +71,10 @@
         "company": "京东物流",
         "tracking_no": "JDVA2841039572",
         "nodes": [
-          {"node": "退货商品已签收", "time": "2026-03-29T16:00:00+08:00"}
+          {
+            "node": "退货商品已签收",
+            "time": "2026-03-29T16:00:00+08:00"
+          }
         ]
       },
       "refund": {
