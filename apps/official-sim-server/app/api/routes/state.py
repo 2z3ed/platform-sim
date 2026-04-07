@@ -11,7 +11,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
 
-from app.domain.state_machine import state_machine
+from app.domain.state_machine import state_machine, TransitionError
 from app.domain.error_injector import error_injector
 from app.domain.event_log import event_log
 from app.domain.push_delivery import push_delivery_manager
@@ -21,17 +21,20 @@ from app.platforms.taobao.profile import (
     TAOBAO_ORDER_STATUS_TRANSITIONS, get_default_order_payload as tb_order_payload,
     get_default_shipment_payload as tb_shipment_payload,
     get_default_refund_payload as tb_refund_payload,
+    validate_status_transition as tb_validate,
 )
 from app.platforms.douyin_shop.profile import (
     DouyinOrderStatus, DouyinRefundStatus,
     DOUYIN_ORDER_STATUS_TRANSITIONS, get_default_order_payload as dy_order_payload,
     get_default_refund_payload as dy_refund_payload,
+    validate_status_transition as dy_validate,
 )
 from app.platforms.jd.profile import (
     JdOrderStatus, JdShipmentStatus, JdRefundStatus,
     JD_ORDER_STATUS_TRANSITIONS, get_default_order_payload as jd_order_payload,
     get_default_shipment_payload as jd_shipment_payload,
     get_default_refund_payload as jd_refund_payload,
+    validate_status_transition as jd_validate,
 )
 
 router = APIRouter()
@@ -47,6 +50,11 @@ ORDER_TRANSITIONS = {
     "taobao": TAOBAO_ORDER_STATUS_TRANSITIONS,
     "douyin_shop": DOUYIN_ORDER_STATUS_TRANSITIONS,
     "jd": JD_ORDER_STATUS_TRANSITIONS,
+}
+VALIDATE_FNS = {
+    "taobao": tb_validate,
+    "douyin_shop": dy_validate,
+    "jd": jd_validate,
 }
 SHIPMENT_STATUS_ENUMS = {
     "taobao": TaobaoShipmentStatus,
@@ -233,8 +241,33 @@ async def advance_state(
 
     new_status = request.new_status
 
-    # Advance state
-    result = state_machine.advance(platform, resource_type, resource_id, new_status, request.action)
+    # Get platform validator and allowed transitions for this resource type
+    validate_fn = VALIDATE_FNS.get(platform) if resource_type == "order" else None
+    transitions = _get_transitions(platform, resource_type)
+
+    # Build allowed status list for error messages
+    current_state = state_machine.get_state(platform, resource_type, resource_id)
+    allowed_statuses = []
+    if current_state and transitions:
+        try:
+            status_enum = ORDER_STATUS_ENUMS.get(platform)
+            if status_enum:
+                current_enum = status_enum(current_state.current_status)
+                allowed = transitions.get(current_enum, [])
+                allowed_statuses = [s.value if hasattr(s, 'value') else str(s) for s in allowed]
+        except ValueError:
+            pass
+
+    # Advance state with validation
+    try:
+        result = state_machine.advance(
+            platform, resource_type, resource_id,
+            new_status, request.action,
+            validate_fn=validate_fn,
+            allowed_statuses=allowed_statuses,
+        )
+    except TransitionError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     if not result:
         raise HTTPException(status_code=404, detail=f"Resource not found: {platform}/{resource_type}/{resource_id}")
 

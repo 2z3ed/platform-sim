@@ -11,11 +11,28 @@ Storage: in-memory dict (first version)
 
 Initial state is derived from fixture payload, not hardcoded.
 """
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Dict, Any, Optional, List, Tuple, Callable
 from datetime import datetime, timezone
 import threading
 
 ResourceKey = Tuple[str, str, str]  # (platform, resource_type, resource_id)
+
+
+class TransitionError(Exception):
+    """Raised when a state transition is not allowed by platform rules."""
+    def __init__(self, platform: str, resource_type: str, resource_id: str,
+                 current_status: str, requested_status: str, allowed: List[str]):
+        self.platform = platform
+        self.resource_type = resource_type
+        self.resource_id = resource_id
+        self.current_status = current_status
+        self.requested_status = requested_status
+        self.allowed = allowed
+        super().__init__(
+            f"Invalid transition for {platform}/{resource_type}/{resource_id}: "
+            f"'{current_status}' -> '{requested_status}'. "
+            f"Allowed: {allowed}"
+        )
 
 
 class ResourceState:
@@ -71,9 +88,22 @@ class StateMachine:
         resource_id: str,
         new_status: str,
         action: str = "",
+        validate_fn: Optional[Callable[[str, str], bool]] = None,
+        allowed_statuses: Optional[List[str]] = None,
     ) -> Optional[Dict[str, Any]]:
         """
-        Advance resource state. Returns transition info or None if resource not initialized.
+        Advance resource state with optional validation.
+
+        Args:
+            validate_fn: Optional callable(current_status, new_status) -> bool.
+                         If provided and returns False, raises TransitionError.
+            allowed_statuses: Optional list of allowed next statuses (for error message).
+
+        Returns:
+            Transition info dict, or None if resource not initialized.
+
+        Raises:
+            TransitionError: If validate_fn rejects the transition.
         """
         key = self._make_key(platform, resource_type, resource_id)
         with self._lock:
@@ -82,6 +112,20 @@ class StateMachine:
                 return None
 
             before = state.current_status
+
+            # Validate transition if validator is provided
+            if validate_fn is not None:
+                if not validate_fn(before, new_status):
+                    allowed = allowed_statuses or []
+                    raise TransitionError(
+                        platform=platform,
+                        resource_type=resource_type,
+                        resource_id=resource_id,
+                        current_status=before,
+                        requested_status=new_status,
+                        allowed=allowed,
+                    )
+
             state.current_status = new_status
             transition = {
                 "action": action,
